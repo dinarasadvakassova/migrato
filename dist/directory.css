@@ -1,0 +1,16 @@
+.places-directory {min-width:0;}
+.directory-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;}
+.directory-card {display:flex;flex-direction:column;gap:10px;min-width:0;padding:22px;border:1px solid #c6dced;border-radius:18px;background:#f7fbff;}
+.directory-card h4 {line-height:1.4;}
+.directory-card p {margin:0;font-size:14px;line-height:1.6;}
+.directory-card .eyebrow {font-size:11px;color:#175db7;}
+.directory-card .directory-address {font-weight:650;color:#17324d;}
+.directory-phone,.directory-official {display:inline-flex;align-items:center;min-height:44px;overflow-wrap:anywhere;font-size:14px;}
+.directory-2gis-link {display:flex;justify-content:center;align-items:center;gap:8px;min-height:48px;margin-top:auto;text-align:center;}
+.directory-more {display:flex;flex-wrap:wrap;gap:10px;margin:18px 0;}
+.directory-more-link {display:flex;align-items:center;min-height:44px;padding:10px 14px;border:1px solid #b9d2e6;border-radius:12px;font-size:14px;}
+.directory-count {margin:16px 0;color:#52677d;font-size:14px;}
+.medical-shortcut {margin:12px 0 0;}
+.city-feature--directory {grid-template-columns:minmax(0,1fr);min-height:0;}
+.city-feature--directory p {max-width:70ch;}
+@media(max-width:700px){.directory-card{padding:18px;}.directory-more-link{width:100%;}}

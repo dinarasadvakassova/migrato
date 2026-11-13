@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Migrato — понятный правовой путеводитель для жизни в Казахстане: документы, жильё, работа и финансовые вопросы.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="theme-color" content="#F2F8FF">
+  <title data-i18n="page.title">Migrato — ваш путь в Казахстане</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./characters.css">
+  <link rel="stylesheet" href="./journey.css">
+  <link rel="stylesheet" href="./guide.css">
+  <link rel="stylesheet" href="./directory.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="access.skip">Перейти к содержимому</a>
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 5l7 7-7 7"/></symbol>
+    <symbol id="icon-route" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M6 8v5a4 4 0 0 0 4 4h4M14 5h3a4 4 0 0 1 0 8h-3"/></symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 11h18M7 15h3M14 15h3M7 18h3"/></symbol>
+    <symbol id="icon-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m16 8-3 5-5 3 3-5 5-3Z"/></symbol>
+    <symbol id="icon-checklist" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="m7 9 1.5 1.5L11 8M13 9h4M7 15h3M13 15h4"/></symbol>
+    <symbol id="icon-budget" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 7h8M8 12h1M15 12h1M8 16h1M15 16h1"/></symbol>
+    <symbol id="icon-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10M9 21v-7h6v7"/></symbol>
+    <symbol id="icon-phrases" viewBox="0 0 24 24"><path d="M7 17 3 21V6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H7Z"/><path d="M7 8h10M7 12h6"/></symbol>
+    <symbol id="icon-map" viewBox="0 0 24 24"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2V5ZM9 3v16M15 5v16"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="icon-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a17 17 0 0 1 0 18 17 17 0 0 1 0-18Z"/></symbol>
+    <symbol id="icon-book" viewBox="0 0 24 24"><path d="M12 6C9 3 5 3 3 4v16c3-1 6-1 9 1 3-2 6-2 9-1V4c-2-1-6-1-9 2ZM12 6v15"/></symbol>
+    <symbol id="icon-work" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="3"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12c5 3 13 3 18 0M10 14h4"/></symbol>
+    <symbol id="icon-laptop" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="13" rx="2"/><path d="m5 16-3 5h20l-3-5M9 12h6"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Z"/><path d="m8 12 3 3 5-6"/></symbol>
+  </svg>
+
+  <div id="app">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#start" aria-label="Migrato — начало" data-i18n-aria="brand.home">
+          <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="13" fill="currentColor"/><path d="M10 26V14l10 9 10-9v12" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="10" r="3" fill="#9CC9FF"/></svg>
+          <span>Migrato<span class="brand-dot">.</span></span>
+        </a>
+        <nav class="desktop-nav" aria-label="Основная навигация" data-i18n-aria="nav.label">
+          <a href="#start" data-i18n="nav.start">Переезд</a>
+          <a href="#documents" data-i18n="nav.documents">Документы</a>
+          <a href="#life" data-i18n="nav.life">Жизнь и финансы</a>
+          <a href="#faq" data-i18n="nav.knowledge">Проверить себя</a>
+          <a href="#cities" data-i18n="nav.cities">Города</a>
+        </nav>
+        <div class="language-control">
+          <svg class="icon" aria-hidden="true"><use href="#icon-globe"/></svg>
+          <label class="visually-hidden" for="language-select" data-i18n="language.label">Язык интерфейса</label>
+          <select id="language-select" name="language"><option value="ru">RU</option><option value="kk">KZ</option><option value="en">EN</option></select>
+        </div>
+        <details class="mobile-menu">
+          <summary><svg class="icon" aria-hidden="true"><use href="#icon-menu"/></svg><span class="visually-hidden" data-i18n="nav.menu">Меню</span></summary>
+          <nav aria-label="Мобильная навигация" data-i18n-aria="nav.mobileLabel">
+            <a href="#start" data-i18n="nav.start">Переезд</a><a href="#documents" data-i18n="nav.documents">Документы</a><a href="#life" data-i18n="nav.life">Жизнь и финансы</a><a href="#faq" data-i18n="nav.knowledge">Проверить себя</a><a href="#cities" data-i18n="nav.cities">Города</a>
+          </nav>
+        </details>
+      </div>
+      <div class="header-progress"><div class="container progress-inner"><span id="profile-summary"></span><span data-i18n="progress.label">Ваш прогресс адаптации</span><progress id="overall-progress" value="0" max="100" aria-label="Прогресс адаптации">0%</progress><span id="overall-progress-label">0%</span></div></div>
+    </header>
+
+    <main id="main">
+      <section id="start" class="start-section">
+        <div class="hero">
+          <div class="container hero-grid">
+            <div class="hero-copy">
+              <p class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="hero.eyebrow">Правовой путеводитель по Казахстану</span></p>
+              <h1><span data-i18n="hero.title">Освойтесь в Казахстане</span> <em data-i18n="hero.titleAccent">шаг за шагом</em></h1>
+              <p class="hero-description" data-i18n="hero.description">Разберитесь с документами, деньгами и жильём. Пройдите учебный переезд и соберите понятный план для своей ситуации.</p>
+              <div id="profile-panel"></div><time class="check-date" datetime="2026-11-11" data-i18n="sources.checkedDate">Проверка источников: 11 ноября 2026</time>
+              <div class="hero-actions"><button class="button button--primary" type="button" data-tool="simulation" aria-haspopup="dialog"><span data-i18n="hero.primary">Начать переезд</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button><button class="button button--plain" type="button" data-tool="route" aria-haspopup="dialog"><span data-i18n="hero.secondary">Составить маршрут</span><svg class="icon" aria-hidden="true"><use href="#icon-route"/></svg></button></div>
+              <p class="privacy-caption"><svg class="icon" aria-hidden="true"><use href="#icon-shield"/></svg><span data-i18n="hero.privacy">Без регистрации. Прогресс остаётся на вашем устройстве.</span></p>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+              <svg class="travel-illustration" viewBox="0 0 600 510" xmlns="http://www.w3.org/2000/svg">
+                <defs><linearGradient id="folder-fill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#BCDFFF"/><stop offset="1" stop-color="#83BAF1"/></linearGradient><linearGradient id="passport-fill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2776C9"/><stop offset="1" stop-color="#13549D"/></linearGradient></defs>
+                <circle cx="322" cy="254" r="213" fill="#E1F0FF"/><circle cx="322" cy="254" r="171" fill="none" stroke="#C5DFF8" stroke-width="1.5" stroke-dasharray="4 9"/>
+                <path d="M66 364c38-67 64-22 103-64s26-106 86-131 104 18 145-24 95-17 118 21" fill="none" stroke="#86B5E0" stroke-width="2.5" stroke-dasharray="6 9" stroke-linecap="round"/>
+                <circle cx="67" cy="365" r="8" fill="#175DB7" stroke="#F2F8FF" stroke-width="6"/><circle cx="519" cy="166" r="8" fill="#175DB7" stroke="#F2F8FF" stroke-width="6"/>
+                <ellipse cx="320" cy="450" rx="185" ry="22" fill="#CBDEF0" opacity=".48"/>
+                <g transform="rotate(8 310 285)"><path d="M135 211a20 20 0 0 1 20-20h86l22 23h196a20 20 0 0 1 20 20v181a20 20 0 0 1-20 20H155a20 20 0 0 1-20-20Z" fill="#6BA7E2"/><rect x="171" y="99" width="245" height="273" rx="17" fill="white" transform="rotate(-8 293 235)"/><path d="m227 132 68-9M224 153l106-14M220 192l150-20M217 214l150-20M214 236l105-14" stroke="#D6E7F6" stroke-width="7" stroke-linecap="round"/><rect x="344" y="121" width="45" height="45" rx="10" fill="#EAF4FF" transform="rotate(-8 366 143)"/><path d="m356 142 7 6 12-16" fill="none" stroke="#4C8AC3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M126 256a20 20 0 0 1 20-20h312a20 20 0 0 1 20 20v166a20 20 0 0 1-20 20H146a20 20 0 0 1-20-20Z" fill="url(#folder-fill)"/><path d="M155 267h70" stroke="#E9F5FF" stroke-width="5" stroke-linecap="round"/><path d="M155 281h42" stroke="#E9F5FF" stroke-width="5" stroke-linecap="round"/></g>
+                <g transform="rotate(-13 369 318)"><rect x="294" y="216" width="158" height="213" rx="15" fill="url(#passport-fill)"/><path d="M306 227v190" stroke="#7AB6EE" stroke-opacity=".5"/><text x="375" y="253" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" letter-spacing="3" fill="#D5EBFF">MIGRATO</text><circle cx="375" cy="309" r="33" fill="none" stroke="#ACD2F5" stroke-width="1.7"/><path d="M345 309h60M375 277c-21 17-21 47 0 64 21-17 21-47 0-64Z" fill="none" stroke="#ACD2F5" stroke-width="1.7"/><path d="M354 289c13 8 29 8 42 0M354 329c13-8 29-8 42 0" fill="none" stroke="#ACD2F5" stroke-width="1.7"/><text x="375" y="385" text-anchor="middle" font-family="system-ui,sans-serif" font-size="25" font-weight="600" letter-spacing="4" fill="white">KZ</text></g>
+                <g transform="translate(111 136) rotate(-12)"><rect width="85" height="85" rx="24" fill="white"/><path d="M25 43h33M46 31l12 12-12 12" fill="none" stroke="#175DB7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g>
+                <g transform="translate(446 350) rotate(10)"><circle cx="34" cy="34" r="34" fill="white"/><path d="m20 34 10 10 19-22" fill="none" stroke="#337D66" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g>
+                <path d="M457 91v16M449 99h16M90 278v12M84 284h12" stroke="#7BA9D4" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <div class="visual-caption"><span class="caption-dot"></span><span data-i18n="hero.visualCaption">Новое место. Понятный следующий шаг.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container category-section">
+          <div class="category-intro"><p class="eyebrow" data-i18n="category.eyebrow">Ваш путь начинается здесь</p><h2 data-i18n="category.title">У каждого переезда свой маршрут</h2><p data-i18n="category.description">Выберите ближайшую к вам категорию. Её можно поменять в любой момент.</p></div>
+          <div class="category-grid" role="group" aria-label="Категория пользователя" data-i18n-aria="category.label">
+            <button class="category-button" type="button" data-category="student" aria-pressed="false"><span class="category-letter"><svg class="icon" aria-hidden="true"><use href="#icon-book"/></svg></span><span><strong data-i18n="category.student">Студент</strong><small data-i18n="category.studentDesc">Приезжаю учиться</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+            <button class="category-button" type="button" data-category="worker" aria-pressed="false"><span class="category-letter"><svg class="icon" aria-hidden="true"><use href="#icon-work"/></svg></span><span><strong data-i18n="category.worker">Трудовой мигрант</strong><small data-i18n="category.workerDesc">Работаю в Казахстане</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+            <button class="category-button" type="button" data-category="remote" aria-pressed="false"><span class="category-letter"><svg class="icon" aria-hidden="true"><use href="#icon-laptop"/></svg></span><span><strong data-i18n="category.remote">Удалённый работник</strong><small data-i18n="category.remoteDesc">Работаю дистанционно</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+            <button class="category-button" type="button" data-category="relocate" aria-pressed="false"><span class="category-letter"><svg class="icon" aria-hidden="true"><use href="#icon-compass"/></svg></span><span><strong data-i18n="category.relocate">Релокант</strong><small data-i18n="category.relocateDesc">Обустраиваюсь надолго</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+          </div>
+          <div class="journey-feature">
+            <div class="journey-feature-copy"><p class="eyebrow" data-i18n="simulation.eyebrow">Учебная симуляция</p><h2 data-i18n="simulation.title">Сначала попробуйте. Потом действуйте увереннее.</h2><p data-i18n="simulation.description">Пройдите путь от въезда до обустройства: принимайте решения и разбирайте их последствия с пояснениями и источниками.</p><button class="button button--white" type="button" data-tool="simulation" aria-haspopup="dialog"><span data-i18n="tool.simulation.action">Пройти симуляцию</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></div>
+            <ol class="journey-stations" aria-label="Темы симуляции" data-i18n-aria="simulation.stagesLabel"><li><span class="station-dot"></span><span data-i18n="simulation.stage1">Въезд</span></li><li><span class="station-dot"></span><span data-i18n="simulation.stage2">Документы</span></li><li><span class="station-dot"></span><span data-i18n="simulation.stage3">Жильё</span></li><li><span class="station-dot"></span><span data-i18n="simulation.stage4">Финансы</span></li><li><span class="station-dot"></span><span data-i18n="simulation.stage5">Новая повседневность</span></li></ol>
+          </div>
+        </div>
+      </section>
+
+      <section id="documents" class="section documents-section">
+        <div class="container"><div class="section-heading"><div><p class="eyebrow" data-i18n="documents.eyebrow">Понимать порядок действий</p><h2 data-i18n="documents.title">Документы и сроки</h2></div><p data-i18n="documents.description">Соберите последовательность шагов, проверьте важные даты и найдите, куда обратиться. Правовая норма всегда рядом с объяснением.</p></div>
+          <div class="tool-cards tool-cards--three">
+            <article class="tool-card"><span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#icon-route"/></svg></span><h3 data-i18n="tool.route.title">Ваш маршрут</h3><p data-i18n="tool.route.description">Ответьте на несколько вопросов и получите последовательность действий с документами и адресатами.</p><button class="text-button" type="button" data-tool="route" aria-haspopup="dialog"><span data-i18n="tool.route.action">Составить маршрут</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></article>
+            <article class="tool-card"><span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#icon-calendar"/></svg></span><h3 data-i18n="tool.calendar.title">Календарь задач</h3><p data-i18n="tool.calendar.description">Укажите дату въезда и проверьте события, которые зависят от вашей ситуации. Сохраните нужные напоминания.</p><button class="text-button" type="button" data-tool="calendar" aria-haspopup="dialog"><span data-i18n="tool.calendar.action">Посмотреть даты</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></article>
+            <article class="tool-card"><span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#icon-compass"/></svg></span><h3 data-i18n="tool.navigator.title">Разобраться в ситуации</h3><p data-i18n="tool.navigator.description">Документы, аренда или банковский счёт? Уточните затруднение и изучите возможные следующие шаги.</p><button class="text-button" type="button" data-tool="navigator" aria-haspopup="dialog"><span data-i18n="tool.navigator.action">Найти решение</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></article>
+          </div>
+          <p class="section-footnote"><svg class="icon" aria-hidden="true"><use href="#icon-book"/></svg><span data-i18n="documents.note">Срок зависит от гражданства, основания въезда и других условий. Проверяйте источник и дату его актуальности.</span></p>
+        </div>
+      </section>
+
+      <section id="life" class="section life-section">
+        <div class="container"><div class="section-heading"><div><p class="eyebrow" data-i18n="life.eyebrow">Обустроить повседневность</p><h2 data-i18n="life.title">Жизнь и финансы</h2></div><p data-i18n="life.description">От первого договора аренды до разговора в банке. Разложите бытовые вопросы на небольшие понятные задачи.</p></div>
+          <div class="tool-cards tool-cards--four">
+            <article class="tool-card"><span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#icon-checklist"/></svg></span><h3 data-i18n="tool.checklist.title">Чек-лист адаптации</h3><p data-i18n="tool.checklist.description">Документы, деньги, жильё и повседневная жизнь в одном списке. Отмечайте готовое и возвращайтесь к остальному.</p><button class="text-button" type="button" data-tool="checklist" aria-haspopup="dialog"><span data-i18n="tool.checklist.action">Открыть чек-лист</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></article>
+            <article class="tool-card"><span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#icon-budget"/></svg></span><h3 data-i18n="tool.budget.title">Бюджет переезда</h3><p data-i18n="tool.budget.description">Сравните два варианта расходов и оцените финансовый запас. Используйте собственные суммы без передачи данных.</p><button class="text-button" type="button" data-tool="budget" aria-haspopup="dialog"><span data-i18n="tool.budget.action">Сравнить варианты</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></article>
+            <article class="tool-card"><span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#icon-home"/></svg></span><h3 data-i18n="tool.rental.title">Тренажёр аренды</h3><p data-i18n="tool.rental.description">Разберите учебные условия договора: оплату, депозит и обязанности сторон. Узнайте, что стоит уточнить заранее.</p><button class="text-button" type="button" data-tool="rental" aria-haspopup="dialog"><span data-i18n="tool.rental.action">Проверить договор</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></article>
+            <article class="tool-card"><span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#icon-phrases"/></svg></span><h3 data-i18n="tool.phrases.title">Нужные слова</h3><p data-i18n="tool.phrases.description">Подберите фразу для ЦОНа, банка или разговора об аренде на русском, казахском и английском языках.</p><button class="text-button" type="button" data-tool="phrases" aria-haspopup="dialog"><span data-i18n="tool.phrases.action">Подобрать фразу</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></article>
+          </div>
+        </div>
+      <div class="section quiz-practice" id="knowledge">
+        <div class="container knowledge-grid"><div class="knowledge-art" aria-hidden="true"><span class="question-orbit orbit-one"></span><span class="question-orbit orbit-two"></span><div class="question-sheet"><span class="sheet-eyebrow">MIGRATO</span><strong>12</strong><span class="sheet-rule"></span><span class="sheet-rule short"></span><span class="sheet-check"><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg></span></div></div><div class="knowledge-copy"><p class="eyebrow" data-i18n="knowledge.eyebrow">Проверить понимание</p><h2 data-i18n="knowledge.title">Жизненные ситуации вместо сухой теории</h2><p data-i18n="knowledge.description">Двенадцать коротких вопросов о жизни иностранца в Казахстане. Сразу после ответа вы увидите объяснение и ссылку на норму.</p><ul class="check-list"><li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg><span data-i18n="knowledge.benefit1">Разбор правильных и ошибочных решений</span></li><li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg><span data-i18n="knowledge.benefit2">Рекомендации по темам в конце теста</span></li><li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg><span data-i18n="knowledge.benefit3">Можно пройти повторно без регистрации</span></li></ul><button class="button button--primary" type="button" data-tool="quiz" aria-haspopup="dialog"><span data-i18n="tool.quiz.action">Пройти тест</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></div></div>
+      </div>
+</section>
+
+      <section id="faq" class="section faq-section">
+        <div class="container">
+          <div class="section-heading"><div><p class="eyebrow" data-i18n="faq.eyebrow">Понятный следующий шаг</p><h2 data-i18n="faq.title">Вопросы и ответы</h2></div><p data-i18n="faq.description">Найдите свою ситуацию: что сделать, какие документы уточнить, куда обратиться и какой вопрос задать.</p></div>
+          <div class="faq-controls"><div class="field"><label for="faq-search" data-i18n="faq.search">Поиск по вопросам</label><input id="faq-search" type="search" autocomplete="off" data-i18n-placeholder="faq.placeholder" placeholder="Например: ИИН, аренда, банк"></div><div class="field"><label for="faq-category" data-i18n="faq.category">Тема вопроса</label><select id="faq-category"><option value="all">Все</option></select></div></div>
+          <div id="faq-content"></div>
+        </div>
+      </section>
+
+      <section id="cities" class="section cities-section">
+        <div class="container"><div class="section-heading"><div><p class="eyebrow" data-i18n="cities.eyebrow">Ориентироваться на месте</p><h2 data-i18n="cities.title">Города и полезные адреса</h2></div><p data-i18n="cities.description">Выберите город и тип организации. У каждого адреса есть пояснение, для чего туда обращаться, и ссылка для проверки.</p></div>
+          <div class="city-feature city-feature--directory"><div class="city-feature-copy"><span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#icon-home"/></svg></span><h3 data-i18n="tool.map.title">Нужные места рядом</h3><p data-i18n="tool.map.description">ЦОНы, миграционные службы, банки и медицинские организации в Астане, Алматы и Шымкенте. Адреса и ссылки 2ГИС.</p><button class="button button--primary" type="button" data-tool="map" aria-haspopup="dialog"><span data-i18n="tool.map.action">Открыть адреса</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button><button class="button button--plain" type="button" data-tool="map" data-place-type="medical" aria-haspopup="dialog"><span data-i18n="tool.medical.action">Больницы в 2ГИС</span></button></div></div>
+          <div id="sources" class="sources-section"><div><p class="eyebrow" data-i18n="sources.eyebrow">Проверять по первоисточнику</p><h3 data-i18n="sources.title">Понимать, откуда взялась информация</h3><p data-i18n="sources.description">В результатах инструментов указаны законодательные источники и дата проверки. Условия банков и организаций уточняйте непосредственно у них.</p></div><div id="source-registry"></div><ul class="official-sources"><li><a href="https://adilet.zan.kz/" target="_blank" rel="noopener noreferrer"><span><strong data-i18n="sources.adiletTitle">Әділет</strong><small data-i18n="sources.adiletDescription">Законы и нормативные акты Казахстана</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li><li><a href="https://egov.kz/" target="_blank" rel="noopener noreferrer"><span><strong>eGov.kz</strong><small data-i18n="sources.egovDescription">Государственные услуги и инструкции</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li><li><a href="https://www.gov.kz/" target="_blank" rel="noopener noreferrer"><span><strong>Gov.kz</strong><small data-i18n="sources.govDescription">Государственные органы и контакты</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li></ul></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><div class="container footer-top"><a class="brand footer-brand" href="#start"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="13" fill="currentColor"/><path d="M10 26V14l10 9 10-9v12" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Migrato<span class="brand-dot">.</span></span></a><p data-i18n="footer.tagline">Понятные шаги в новой стране.</p><a class="footer-top-link" href="#start"><span data-i18n="footer.toStart">К началу</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></div><div class="container footer-bottom"><p id="legal-disclaimer" data-i18n="footer.disclaimer">Migrato — учебный справочный путеводитель. Материалы помогают подготовиться к обращению и не являются индивидуальной юридической консультацией. Применимость правил зависит от вашей ситуации. Уточняйте актуальные требования у компетентного органа или организации по указанным официальным источникам. Отметки и завершение маршрута не подтверждают подачу или одобрение документов.</p><div class="footer-utility"><span data-i18n="footer.project">Учебный проект</span><button class="footer-reset" type="button" data-action="reset-progress" data-i18n="footer.reset">Сбросить мой прогресс</button></div></div></footer>
+  </div>
+
+  <dialog id="tool-dialog" class="tool-dialog" aria-labelledby="tool-title" aria-describedby="tool-summary"><header class="tool-dialog-header"><div class="tool-dialog-heading"><p class="eyebrow" data-i18n="workspace.eyebrow">Ваше пространство действий</p><h2 id="tool-title" tabindex="-1">Migrato</h2><p id="tool-summary"></p></div><button class="icon-button dialog-close" type="button" data-action="close-tool" data-close-dialog aria-label="Закрыть инструмент" data-i18n-aria="workspace.close"><svg class="icon" aria-hidden="true"><use href="#icon-close"/></svg><span class="visually-hidden" data-i18n="workspace.close">Закрыть инструмент</span></button></header><div class="tool-dialog-body"><div id="tool-progress" class="tool-progress"></div><div id="tool-content"></div><p id="tool-status" class="tool-status" role="status" aria-live="polite" aria-atomic="true"></p></div></dialog>
+  <noscript><div class="noscript-note">Для работы интерактивных инструментов включите JavaScript. Ссылки на официальные источники доступны без него.</div></noscript>
+</body>
+</html>

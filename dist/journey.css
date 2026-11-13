@@ -1,0 +1,126 @@
+
+/* Route and reference answers share the same readable document rhythm. */
+.journey-layout { display:grid;grid-template-columns:minmax(380px,1fr) minmax(0,1fr);gap:22px;align-items:start; }
+.journey-map-wrap { position:sticky;top:8px;align-self:start;min-width:0;border:1px solid #c7dfef;border-radius:20px;padding:14px;background:#f1f8ff;box-shadow:0 6px 20px #163d6409;z-index:4; }
+.journey-map { position:relative;width:min(100%,460px);min-width:0;aspect-ratio:520/780;margin-inline:auto;border-radius:16px;background:linear-gradient(155deg,#e4f3ff,#f5f8e9); }
+.journey-map-svg { display:block;width:100%;height:auto;overflow:visible; }
+.journey-path { stroke:#b7d4e8;stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:5 19; }
+.journey-dot { fill:#fff;stroke:#2776be;stroke-width:4; }.journey-dot.is-complete{fill:#5ca885;stroke:#19533d;}
+.journey-map-label { font-family:inherit;font-size:20px;font-weight:650;fill:#244d70; }
+.journey-landmark { fill:#d9eafa;stroke:#28649b;stroke-width:3;stroke-linejoin:round; }
+.journey-landmark:nth-last-of-type(2) { fill:#e5bd68; }
+.journey-runner { pointer-events:none;transition:transform 800ms cubic-bezier(.25,.6,.3,1); }
+.journey-runner-svg { overflow:visible; }
+.journey-runner.is-moving .barys-body { animation:barys-run 260ms ease-in-out infinite alternate; }
+.journey-runner.is-moving .barys-arm-left { animation:barys-run-arm 260ms ease-in-out infinite alternate;transform-origin:119px 215px; }
+.journey-runner.is-moving .barys-arm-right { animation:barys-run-arm 260ms ease-in-out infinite alternate-reverse;transform-origin:202px 215px; }
+.journey-runner.is-finished .barys-head { animation:barys-nod 800ms ease-in-out 2; }
+.journey-map-meta {padding-top:10px;}.journey-viewing{font-size:12px!important;color:#52677d;margin:0 0 6px!important;}
+.journey-current-title{display:block;font-size:15px;line-height:1.4;}.journey-marked{font-size:12px!important;line-height:1.5;margin:8px 0 10px!important;color:#285572;}
+.journey-stage-nav {display:flex;flex-wrap:wrap;gap:6px;}
+#tool-content .journey-stage-control {padding:5px;min-width:44px;min-height:44px;flex:1;border:1px solid #b1cbe1;background:#fff;font-size:12px;border-radius:10px;}
+#tool-content .journey-stage-control.is-selected {border:2px solid #175db7;background:#e3f0ff;color:#124580;}
+#tool-content .journey-stage-control.is-complete::after {content:' ✓';color:#19533d;}
+.journey-next {margin:16px 0 0 8px;}.journey-card summary{scroll-margin-top:16px;}
+.journey-panel { display:grid;gap:12px;min-width:0; }
+.journey-card { border:1px solid #c9dcec;border-radius:16px;padding:0 18px;background:white; }
+.journey-card > summary { min-height:62px;padding:16px 0;cursor:pointer;font-weight:650;line-height:1.4;color:#17324d; }
+.journey-card[open] { padding-bottom:20px;border-color:#6fa5d4; }
+.journey-card h4 { margin:20px 0 10px; }.journey-card p,.journey-card li { font-size:15px;line-height:1.6; }
+.journey-card .task-row { padding:14px 12px; }.journey-card .source-box { padding:12px; }
+.journey-card ul { padding-left:20px; }.journey-card .task-list { padding-left:0; }
+.journey-status { padding:14px 0;color:#175db7;font-size:14px !important;font-weight:600; }
+.journey-finish { border-radius:20px;padding:20px;background:#e7f5ed;color:#194f3a; }
+.faq-section { background:#f4f8fd; }.faq-controls { display:grid;grid-template-columns:2fr 1fr;gap:18px;margin:24px 0; }
+.faq-controls label { display:block;font-size:14px;font-weight:650;margin-bottom:8px; }
+.faq-controls input,.faq-controls select { width:100%;min-height:50px;padding:12px 14px;border:1px solid #bdcfe0;border-radius:12px;background:#fff;color:#17324d;font:inherit;font-size:16px; }
+.faq-results { display:grid;gap:12px; }.faq-count { font-size:14px;color:#52677d;margin-bottom:18px; }
+.faq-item { border:1px solid #d0deea;background:#fff;border-radius:16px; }
+.faq-item > summary { min-height:64px;padding:18px 22px;font-weight:650;line-height:1.45;cursor:pointer; }
+.faq-item[open] { border-color:#6da2d0; }.faq-answer { padding:0 24px 24px; }
+.faq-answer p,.faq-answer li { font-size:16px;line-height:1.65; }.faq-answer h4 { font-size:16px;margin:24px 0 10px; }
+.faq-answer ol { padding-left:24px; }.faq-answer li { padding-left:4px;margin:9px 0; }.faq-answer .source-box { margin-top:20px; }
+.faq-empty { padding:26px;border:1px dashed #a9bfd3;border-radius:16px; }
+.quiz-practice { padding-bottom:20px; }.source-registry { margin-top:24px; }.source-registry > summary { cursor:pointer;min-height:48px;padding:12px 0;font-size:18px;font-weight:650; }
+.source-registry li { margin:15px 0;line-height:1.55; }.source-registry small { display:block;color:#52677d; }
+.check-date { font-size:12px;color:#52677d;display:block;margin-top:10px; }
+@keyframes barys-run { from{transform:translateY(-2px) rotate(-2deg)}to{transform:translateY(2px) rotate(2deg)} }
+@keyframes barys-run-arm { from{transform:rotate(-20deg)}to{transform:rotate(20deg)} }
+@media(max-width:900px){.journey-layout{grid-template-columns:1fr;gap:18px;}}
+@media(max-width:700px){
+ .journey-layout { grid-template-columns:1fr;gap:14px; }
+ .journey-map-wrap {top:0;display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:12px;border-radius:14px;}
+ .journey-map {width:min(100%,460px);min-width:0;}
+ .journey-map-meta{padding:0;align-self:center;}.journey-current-title{font-size:14px;}
+ .journey-stage-nav{gap:4px;}#tool-content .journey-stage-control{font-size:11px;flex:0 1 calc(33.333% - 3px);}
+ .journey-viewing,.journey-marked{font-size:11px!important;}.journey-next{margin-left:0;width:100%;}
+ .journey-card {padding-inline:16px;}.faq-controls {grid-template-columns:1fr;gap:14px;}
+ .faq-item > summary {padding:16px 18px;font-size:16px;}.faq-answer {padding:0 18px 20px;}
+}
+@media(prefers-reduced-motion:reduce){.journey-runner,.journey-runner *{transition:none!important;animation:none!important;}}
+
+
+/* One short, quiet celebration, never a flashing or repeating overlay. */
+.journey-celebration {position:fixed;inset:0;width:min(540px,calc(100vw - 28px));max-width:none;max-height:calc(100dvh - 28px);overflow-y:auto;margin:auto;padding:0;border:1px solid #7499b1;border-radius:28px;background:#163e61;color:#fff;box-shadow:0 26px 100px #061d3670;}
+.journey-celebration:not([open]){display:none;}.journey-celebration::backdrop{background:#081d3bc9;backdrop-filter:blur(5px);}
+.celebration-content{position:relative;z-index:1;text-align:center;padding:26px 34px 28px;}
+.celebration-close{position:absolute;right:8px;top:8px;width:44px;height:44px;padding:0;background:transparent;color:#fff;border:0;border-radius:50%;font-size:28px;cursor:pointer;}
+.celebration-art{height:168px;display:flex;justify-content:center;align-items:flex-end;gap:2px;margin:0 auto 16px;}
+.celebration-baiterek{width:113px;height:155px;fill:#f0cd82;stroke:#f0cd82;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;}
+.celebration-baiterek path{fill:none;}.celebration-art .barys-character{display:block;width:118px;}
+.celebration-kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#f1d593;margin:0 0 12px;}
+.journey-celebration h2{font-size:30px;line-height:1.2;color:#fff;margin:0 0 18px;text-wrap:balance;}
+#celebration-message{font-size:16px;line-height:1.65;color:#e2edf5;margin:0 auto 22px;}
+.celebration-return{background:#f4d58f;border:1px solid #f4d58f;color:#173c5b;min-height:48px;padding:12px 22px;cursor:pointer;}
+.celebration-note{font-size:12px;line-height:1.55;color:#c4d8e8;margin:20px auto 0;max-width:400px;}
+.celebration-fireworks{position:absolute;inset:0;overflow:hidden;pointer-events:none;border-radius:inherit;}
+.firework-burst{position:absolute;left:var(--burst-x);top:var(--burst-y);width:1px;height:1px;}
+.firework-burst i{position:absolute;display:block;width:4px;height:12px;border-radius:4px;background:var(--hue);opacity:0;animation:journey-firework 1.5s ease-out var(--delay) 2;transform-origin:center;}
+@keyframes journey-firework{0%{opacity:0;transform:rotate(var(--angle)) translateY(-8px) scale(.2)}18%{opacity:.9}100%{opacity:0;transform:rotate(var(--angle)) translateY(-105px) scale(.5)}}
+html[data-motion="paused"] .firework-burst i{animation:none!important;opacity:.5;transform:rotate(var(--angle)) translateY(-36px) scale(.55);}
+@media(prefers-reduced-motion:reduce){.firework-burst i{animation:none!important;opacity:.5;transform:rotate(var(--angle)) translateY(-36px) scale(.55);}}
+@media(max-width:700px){.celebration-content{padding:22px 22px 24px;}.journey-celebration h2{font-size:26px;}.celebration-art{height:138px;}.celebration-art .barys-character{width:96px;}.celebration-baiterek{height:132px;width:96px;}}
+@media(max-height:560px){.celebration-art{height:95px;}.celebration-art .barys-character{width:70px;}.celebration-baiterek{height:90px;width:70px;}.celebration-content{padding-top:16px;}}
+#sources>#source-registry{grid-column:1/-1;order:3;}
+
+/* Measure the whole sticky card against the actual dialog scrollport. */
+.journey-map-wrap.is-compact{display:grid;grid-template-columns:180px minmax(0,1fr);gap:12px;padding:10px;}
+.journey-map-wrap.is-compact .journey-map{width:180px;min-width:0;}
+.journey-map-wrap.is-compact .journey-map-label{display:none;}
+.journey-map-wrap.is-compact .journey-map-meta{padding:0;align-self:center;}
+.journey-map-wrap.is-compact .journey-current-title{font-size:14px;}
+.journey-map-wrap.is-compact .journey-stage-nav{gap:4px;}
+#tool-content .journey-map-wrap.is-compact .journey-stage-control{flex:0 1 calc(33.333% - 3px);font-size:11px;}
+.journey-map-wrap.is-unpinned{position:static;}
+/* Compact mode is chosen explicitly; scrollport measurements only control sticky. */
+@media(max-width:700px){
+ .journey-map-wrap.is-compact{grid-template-columns:130px minmax(0,1fr);gap:10px;}
+ .journey-map-wrap.is-compact .journey-map{width:130px;}
+}
+@media(max-height:500px){.journey-layout{grid-template-columns:1fr;}.journey-map-wrap{position:static;}}
+
+@media(max-width:900px){.journey-card summary{scroll-margin-top:var(--journey-sticky-clearance,300px);}}
+
+/* Full-size route is the default; only an explicit user choice makes it compact. */
+#tool-dialog:has([data-journey]){width:min(1180px,calc(100% - 32px));}
+.journey-map-toolbar{display:flex;justify-content:flex-end;margin:0 0 10px;}
+.journey-map-wrap.is-compact .journey-map-toolbar{grid-column:1/-1;margin:0;}
+#tool-content .journey-map-mode{min-height:44px;padding:9px 14px;font-size:13px;}
+@media(max-width:900px){.journey-map-wrap:not(.is-compact){display:block;}.journey-map-wrap:not(.is-compact) .journey-stage-control{flex:1;}.journey-map-wrap:not(.is-compact) .journey-map-meta{padding-top:14px;}}
+@media(max-width:700px){#tool-dialog:has([data-journey]){width:100%;}.journey-map-wrap:not(.is-compact) .journey-map-label{display:block;}.journey-map-wrap:not(.is-compact) .journey-current-title{font-size:16px;}}
+
+/* Explicit map controls preserve the large default and keep zoom scrolling local. */
+.journey-map-viewport{max-width:100%;overflow:auto;overscroll-behavior:contain;border-radius:16px;}
+.journey-map-viewport.is-zoomed{max-height:680px;}
+.journey-zoom-controls{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 12px;}
+#tool-content .journey-zoom-controls button{min-width:44px;min-height:44px;padding:7px 10px;}
+.journey-zoom-label{min-width:48px;text-align:center;font-size:14px;}
+.journey-map-viewport:focus-visible{outline:3px solid #175db7;outline-offset:3px;}
+@media(max-width:700px){.journey-map-viewport.is-zoomed{max-height:65dvh;}}
+
+/* Controls stay inside the actual dialog scrollport, below its full header. */
+.journey-map-controls{position:sticky;top:0;z-index:7;background:#f1f8ff;padding:8px 0 4px;border-bottom:1px solid #c7dfef;}
+.journey-map-controls .journey-zoom-controls{margin-bottom:6px;}
+.tool-dialog-body{scroll-padding-top:18px;}
+.journey-map-controls button{scroll-margin-block:18px;}
+.journey-map-controls:focus-within{outline-offset:3px;}

@@ -1,0 +1,29 @@
+# Source-only repository. Add new top-level files explicitly.
+/*
+!/.gitignore
+!/README.md
+!/package.json
+!/build-preview.mjs
+!/serve.mjs
+!/netlify.toml
+!/dist/
+!/dist/**
+!/tests/
+!/tests/**
+
+# Keep credentials, local settings and generated files out at every level.
+**/.DS_Store
+**/.env
+**/.env.*
+**/.openai/
+**/.netlify/
+**/.aws/
+**/.codex/
+**/.git/
+**/node_modules/
+**/__pycache__/
+**/*.zip
+**/*.docx
+**/*.pdf
+**/*-raw.png
+**/*-ax.txt

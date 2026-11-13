@@ -1,0 +1,77 @@
+
+/* Barys: original native SVG character, six explicit acting states. */
+.barys-character { width:170px; flex:none; transform-origin:50% 90%; }
+.barys-svg { width:100%; height:auto; display:block; overflow:visible; }
+.barys-body { transform-origin:160px 340px; }
+.barys-head { transform-origin:160px 190px; transition:transform 420ms cubic-bezier(.2,.7,.3,1); }
+.barys-arm-left { transform-origin:119px 215px; transition:transform 440ms cubic-bezier(.2,.7,.3,1); }
+.barys-arm-right { transform-origin:202px 215px; transition:transform 440ms cubic-bezier(.2,.7,.3,1); }
+.barys-tail { transform-origin:210px 320px; animation:barys-tail 5.2s ease-in-out infinite; }
+.barys-eye { transform-box:fill-box; transform-origin:center; animation:barys-blink 6.4s ease-in-out infinite; }
+.barys-brow { transition:transform 420ms ease; transform-origin:center; transform-box:fill-box; }
+.barys-mouth-open { display:none; }
+.barys--idle .barys-head { animation:barys-breathe 4.8s ease-in-out infinite; }
+.barys--question .barys-head { transform:rotate(-5deg); }
+.barys--question .barys-arm-right { transform:rotate(-38deg); }
+.barys--question .brow-right { transform:translateY(-5px) rotate(-8deg); }
+.barys--question .barys-mouth-open,.barys--explain .barys-mouth-open { display:block; animation:barys-talk 680ms ease-in-out 3; }
+.barys--thinking .barys-head { transform:rotate(6deg); }
+.barys--thinking .barys-arm-left { transform:rotate(-115deg); }
+.barys--thinking .brow-left { transform:translateY(-3px) rotate(9deg); }
+.barys--explain .barys-arm-right { transform:rotate(-55deg); }
+.barys--explain .barys-head { transform:rotate(-2deg); }
+.barys--success .barys-arm-left { transform:rotate(24deg); }
+.barys--success .barys-arm-right { transform:rotate(-28deg); }
+.barys--success .barys-head { animation:barys-nod 700ms ease-in-out 1; }
+.barys--success .barys-body { animation:barys-celebrate 700ms ease-out 1; }
+.barys--caution .barys-head { transform:rotate(5deg); }
+.barys--caution .barys-arm-right { transform:rotate(-24deg); }
+.barys--caution .brow-left { transform:rotate(-11deg) translateY(-3px); }
+.barys--caution .brow-right { transform:rotate(11deg) translateY(-3px); }
+.barys--caution .barys-mouth { transform:translateY(1px); }
+.barys-guide { display:flex; gap:18px; align-items:center; margin:14px 0 24px; padding:16px 20px 16px 8px; border-radius:22px; background:#eef6ff; border:1px solid #d5e6f4; }
+.barys-guide .barys-character { width:118px; }
+.barys-bubble { flex:1; min-width:0; }
+#tool-content .barys-name,.barys-name { font-size:13px; color:#52677d; font-weight:650; margin:0 0 7px; }
+#tool-content .barys-greeting { font-size:15px; margin:0 0 12px; }
+#tool-content .barys-bubble h3 { font-size:23px; line-height:1.3; margin:0 0 12px; }
+.barys-bubble .scenario-scene { margin:0 0 12px; font-size:16px; }
+.barys-hint summary { display:flex; align-items:center; min-height:44px; color:#175db7; font-size:14px; font-weight:650; cursor:pointer; }
+.barys-hint p { padding-top:8px; }
+.barys-hero { background:radial-gradient(ellipse at 50% 52%,#dceeff 0 52%,transparent 53%); display:flex; flex-direction:column; align-items:center; }
+.barys-hero .barys-character { width:min(330px,76%); }
+.barys-hero-caption { max-width:340px; text-align:center; padding:8px 20px 20px; color:#17324d; }
+.barys-hero-caption strong { font-size:17px; }.barys-hero-caption p { margin:8px 0 2px; font-size:17px; line-height:1.5; }
+.barys-motion-toggle { border:0; background:transparent; color:#52677d; font:inherit; font-size:12px; min-height:44px; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+.profile-form { padding:22px; border:1px solid #c9dff1; background:#fff; border-radius:20px; box-shadow:0 10px 28px #1d5c9b08; margin:26px 0 18px; }
+.profile-form h2 { font-size:22px; line-height:1.3; margin:0 0 18px; }
+.profile-fields { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.profile-fields .field:last-child { grid-column:1/-1; }
+.profile-fields label { display:block; margin-bottom:6px; font-size:14px; font-weight:600; }
+.profile-fields select { width:100%; min-height:48px; background:#f7fbff; color:#17324d; border:1px solid #b8cfe3; border-radius:10px; padding:10px 32px 10px 12px; font:inherit; font-size:16px; }
+.profile-form .button { width:100%; margin-top:16px; }
+.profile-privacy { font-size:12px !important; line-height:1.5; color:#52677d; margin:12px 0 0; }
+.profile-active { padding:20px 24px; background:#eaf4ff; border:1px solid #c5def3; border-radius:18px; margin:24px 0; }
+.profile-active > strong { font-size:20px; }.profile-active p:not(.eyebrow) { margin:9px 0 2px; font-size:16px; }
+#profile-summary { font-size:12px; color:#175db7; margin-right:auto; }
+@keyframes barys-tail { 0%,100%{transform:rotate(-2deg)}50%{transform:rotate(4deg)} }
+@keyframes barys-blink { 0%,43%,47%,100%{transform:scaleY(1)}45%{transform:scaleY(.12)} }
+@keyframes barys-breathe { 0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)} }
+@keyframes barys-talk { 0%,100%{transform:scaleY(.5);transform-origin:160px 190px}50%{transform:scaleY(1.1);transform-origin:160px 190px} }
+@keyframes barys-nod { 0%,100%{transform:rotate(0)}45%{transform:rotate(6deg) translateY(3px)} }
+@keyframes barys-celebrate { 0%,100%{transform:translateY(0)}45%{transform:translateY(-5px)} }
+@media(max-width:700px){
+ .barys-guide { align-items:flex-start; gap:8px; padding:14px 12px 14px 0; border-radius:16px; }
+ .barys-guide .barys-character { width:78px; margin-top:12px; }
+ #tool-content .barys-bubble h3 { font-size:20px; }
+ #tool-content .barys-greeting { font-size:14px; }
+ .barys-hint summary { font-size:13px; }.barys-hero .barys-character { width:210px; }
+ .barys-hero-caption p { font-size:15px; }.profile-form { padding:18px; margin-top:20px; }
+ .profile-form h2 { font-size:20px; }.profile-fields { grid-template-columns:1fr; gap:12px; }
+ .hero .hero-copy { padding-top:16px; }.hero h1 { font-size:38px; }.hero-description { font-size:16px; }
+ #profile-summary { display:none; }
+}
+html[data-motion="paused"] .barys-character *,html[data-motion="paused"] .journey-runner { animation:none !important; transition:none !important; }
+@media(prefers-reduced-motion:reduce){.barys-character *,.journey-runner {animation:none !important;transition:none !important;}}
+@media print {.barys-guide,.barys-hero {display:none!important;}}
+

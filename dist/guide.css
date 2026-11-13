@@ -1,0 +1,104 @@
+
+/* Compact right-corner guide; the original hero illustration stays intact. */
+.site-guide { position:fixed;right:18px;bottom:16px;z-index:45; }
+.site-guide-toggle { display:flex;align-items:center;justify-content:center;width:100px;height:124px;padding:0;border:0;border-radius:28px;background:#f3f9ffdd;box-shadow:0 4px 18px #163b6620;cursor:pointer; }
+.site-guide-toggle .barys-character { display:block;width:90px; }
+.site-guide-bubble { position:absolute;right:0;bottom:135px;width:310px;max-width:calc(100vw - 28px);padding:22px;border:1px solid #bfd7eb;border-radius:20px;background:#fff;box-shadow:0 12px 42px #173d6424; }
+.site-guide [hidden] {display:none!important;}
+.site-guide-bubble h3 {font-size:20px;line-height:1.3;margin:12px 22px 10px 0;}
+.site-guide-bubble > p:not(.barys-name) {font-size:15px;line-height:1.65;color:#385571;margin:10px 0 16px;}
+.site-guide-bubble .button {width:100%;font-size:14px;min-height:46px;}
+.guide-close {position:absolute;top:6px;right:6px;width:44px;height:44px;border:0;border-radius:12px;background:transparent;font-size:25px;color:#52677d;cursor:pointer;}
+.guide-motion {border:0;background:transparent;min-height:44px;padding:8px 0;color:#52677d;font:inherit;font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;}
+body.dialog-open #site-guide {display:none;}
+.barys-guide {padding:14px 6px 14px 18px;align-items:flex-start;}
+.barys-guide > .barys-character {width:88px;margin-top:14px;}
+.barys--question .barys-mouth,.barys--explain .barys-mouth {opacity:0;}
+.barys--question .barys-head {animation:barys-ask 650ms ease-out 1;}
+.barys--explain .barys-arm-right {animation:barys-explain 680ms ease-out 1;}
+.barys--thinking .barys-arm-left {animation:barys-think 700ms ease-out 1;}
+.barys--caution .barys-head {animation:barys-care 650ms ease-out 1;}
+html[data-motion="paused"] .journey-runner * {animation:none!important;transition:none!important;}
+@keyframes barys-ask {from{transform:rotate(0)}to{transform:rotate(-5deg)}}
+@keyframes barys-explain {from{transform:rotate(0)}to{transform:rotate(-55deg)}}
+@keyframes barys-think {from{transform:rotate(0)}to{transform:rotate(-115deg)}}
+@keyframes barys-care {from{transform:rotate(0)}to{transform:rotate(5deg)}}
+@media(max-width:700px){
+ .site-guide {right:9px;bottom:10px;}
+ .site-guide-toggle {width:80px;height:100px;border-radius:22px;}
+ .site-guide-toggle .barys-character {width:72px;}
+ .site-guide-bubble {bottom:110px;width:300px;padding:20px;}
+ .barys-guide > .barys-character {width:68px;}
+ .barys-guide {gap:7px;padding-left:12px;}
+ .footer-bottom {padding-bottom:90px;}
+}
+@media(prefers-reduced-motion:reduce){.barys-character *,.journey-runner *{animation:none!important;transition:none!important;}}
+@media print {#site-guide {display:none!important;}}
+
+/* Persistent scripted advice: the message scrolls, its close/CTA remain available. */
+.site-guide-bubble {
+ display:flex;flex-direction:column;gap:12px;
+ max-height:calc(100dvh - var(--header-height,112px) - 172px);
+ min-height:0;overflow:hidden;
+}
+.site-guide-message {flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding-right:5px;}
+.site-guide-message .barys-name {padding-right:30px;font-size:12px;line-height:1.5;overflow-wrap:anywhere;}
+.site-guide[data-event="welcome"] .site-guide-message .barys-name {display:none;}
+.site-guide-message h3 {margin:8px 25px 10px 0;font-size:19px;line-height:1.4;overflow-wrap:anywhere;}
+.site-guide-message > p:not(.barys-name) {margin:0;color:#385571;font-size:14px;line-height:1.7;overflow-wrap:anywhere;}
+.site-guide-bubble > .button {flex:0 0 auto;}
+.site-guide .guide-secondary {flex:0 0 auto;}
+.site-guide .guide-motion {width:100%;text-align:center;}
+.site-guide .guide-close {z-index:2;background:#fff;}
+.site-guide :is(button,a):focus-visible {outline:3px solid #175db7;outline-offset:3px;}
+body:has(dialog[open]) #site-guide,
+body:has(.mobile-menu[open]) #site-guide {display:none;}
+#tool-content .barys-guide {display:grid;grid-template-columns:minmax(0,1fr)88px;align-items:start;gap:12px;padding:16px;margin:0 0 22px;}
+#tool-content .barys-guide > .barys-character {position:static;justify-self:end;width:88px;max-width:100%;margin:8px 0 0;}
+#tool-content .barys-bubble {min-width:0;}
+#tool-content .barys-bubble .barys-greeting {font-size:14px;line-height:1.7;margin:0 0 14px;overflow-wrap:anywhere;}
+#tool-content .barys-bubble h3 {overflow-wrap:anywhere;}
+#tool-content .barys-bubble .barys-name {padding-right:0;font-size:12px;line-height:1.5;overflow-wrap:anywhere;}
+@media(max-width:700px){
+ .site-guide-bubble {max-height:calc(100dvh - var(--header-height,112px) - 134px);gap:10px;}
+ #tool-content .barys-guide {grid-template-columns:minmax(0,1fr)68px;gap:8px;padding:13px 10px 13px 13px;}
+ #tool-content .barys-guide > .barys-character {width:68px;}
+ #tool-content .barys-bubble .barys-greeting {font-size:13px;line-height:1.7;}
+}
+@media(max-height:520px){
+ .site-guide-bubble {display:grid;grid-template-columns:minmax(0,1fr)94px;grid-template-rows:minmax(0,1fr)auto;gap:8px;padding:12px;}
+ .site-guide-message {grid-column:1/-1;}
+ .site-guide-bubble > .button {grid-column:1;min-height:44px;padding:8px;font-size:12px;}
+ .site-guide .guide-secondary {grid-column:2;grid-row:2;}
+ .site-guide .guide-motion {min-height:44px;padding:4px;font-size:11px;line-height:1.4;}
+ .site-guide-message h3 {font-size:16px;line-height:1.4;}
+ .site-guide-message > p:not(.barys-name) {font-size:13px;}
+}
+
+/* WAAPI only changes compositing properties; the unanimated state is fully visible. */
+.consultant-message-motion {opacity:1;transform:none;}
+html[data-motion="paused"] {scroll-behavior:auto;}
+html[data-motion="paused"] .consultant-message-motion {opacity:1!important;transform:none!important;animation:none!important;}
+@media(prefers-reduced-motion:reduce){
+ .consultant-message-motion {opacity:1!important;transform:none!important;animation:none!important;}
+}
+
+
+/* Mobile advice never covers the profile or CTA: the text is inline, Barys stays bottom-right. */
+@media(max-width:700px){
+ .site-guide{position:relative;inset:auto;z-index:1;width:100%;margin:18px 0;}
+ .site-guide-toggle{position:fixed;right:9px;bottom:max(10px,env(safe-area-inset-bottom));z-index:45;}
+ .site-guide-bubble{position:relative;inset:auto;width:100%;max-width:100%;max-height:none;overflow:visible;padding:18px;display:flex;}
+ .site-guide-message{overflow:visible;max-height:none;scrollbar-gutter:auto;}
+ .site-guide-message h3{font-size:19px;}.site-guide-message > p:not(.barys-name){font-size:15px;line-height:1.6;}
+ .site-guide:has(.site-guide-bubble[hidden]){margin:0;}
+ body:has(input:focus,select:focus,textarea:focus) .site-guide-toggle{visibility:hidden;}
+}
+
+/* Advice is part of the reading flow on every screen; only the mascot button floats. */
+.site-guide{position:relative;inset:auto;z-index:1;width:100%;margin:18px 0;}
+.site-guide-toggle{position:fixed;right:18px;bottom:max(16px,env(safe-area-inset-bottom));z-index:45;}
+.site-guide-bubble{position:relative;inset:auto;width:min(100%,520px);max-width:100%;max-height:none;margin-left:auto;overflow:visible;display:flex;}
+.site-guide-message{overflow:visible;max-height:none;scrollbar-gutter:auto;}
+.site-guide:has(.site-guide-bubble[hidden]){margin:0;}
+@media(max-width:700px){.site-guide-toggle{right:9px;bottom:max(10px,env(safe-area-inset-bottom));}.site-guide-bubble{width:100%;}}
