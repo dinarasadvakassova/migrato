@@ -34,6 +34,12 @@ const ui={
 let instance;
 const combine=(...values)=>tri(...['ru','kk','en'].map(lang=>values.map(value=>pick(value,lang)).filter(Boolean).join(' ')));
 function reducedMotion(){return document.documentElement.dataset.motion==='paused'||globalThis.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;}
+function automaticAdviceAllowed(){
+ const active=document.activeElement,editing=active?.matches?.('input,textarea,select,[contenteditable="true"]')&&!instance?.host.contains(active);
+ const height=globalThis.visualViewport?.height||globalThis.innerHeight||800;
+ const keyboard=editing&&(globalThis.innerHeight||height)-height>120;
+ return height>=360&&!keyboard&&!(editing&&globalThis.matchMedia?.('(max-width:700px)')?.matches);
+}
 function currentTip(){
  const i=instance,state=i.getState(),base=texts[i.current]||texts.start;
  if(i.event.type==='welcome')return {...base,title:ui.hello,body:combine(ui.introduction,i.current==='start'&&state.profile?.ready?ui.readyStart:base.body)};
@@ -54,7 +60,7 @@ function currentTip(){
 function displayEvent(type,detail={},key=type){
  if(!instance)return false;
  const i=instance,changed=i.key!==key;i.key=key;i.event={type,detail};
- if(changed){i.dismissedKey=null;i.bubble.hidden=false;i.toggle.setAttribute('aria-expanded','true');}
+ if(changed){i.dismissedKey=null;i.bubble.hidden=!automaticAdviceAllowed();i.toggle.setAttribute('aria-expanded',String(!i.bubble.hidden));}
  refreshSiteGuide();return true;
 }
 export function guideEvent(type,detail={}){
@@ -83,9 +89,10 @@ export function mountSiteGuide({getState,openTool}){
  const message=el('div',{class:'site-guide-message',role:'status','aria-live':'polite','aria-atomic':'true'}),name=el('p',{class:'barys-name'}),title=el('h3'),body=el('p'),action=el('button',{type:'button',class:'button button-primary'});
  const controls=el('div',{class:'guide-secondary'}),motion=el('button',{type:'button',class:'guide-motion'});controls.append(motion);message.append(name,title,body);bubble.append(close,message,action,controls);host.append(toggle,bubble);document.body.append(host);
  instance={host,toggle,character,bubble,message,close,name,title,body,action,controls,motion,getState,openTool,current:'start',event:{type:'welcome',detail:{}},key:'welcome',dismissedKey:null};
- const collapse=()=>{instance.dismissedKey=instance.key;bubble.hidden=true;toggle.setAttribute('aria-expanded','false');};
- toggle.addEventListener('click',()=>{if(bubble.hidden){instance.dismissedKey=null;bubble.hidden=false;toggle.setAttribute('aria-expanded','true');bubble.scrollIntoView({block:'nearest',behavior:reducedMotion()?'auto':'smooth'});}else collapse();});
+ const collapse=()=>{const returnFocus=bubble.contains(document.activeElement);instance.dismissedKey=instance.key;bubble.hidden=true;toggle.setAttribute('aria-expanded','false');if(returnFocus)toggle.focus({preventScroll:true});};
+ toggle.addEventListener('click',()=>{if(bubble.hidden){instance.dismissedKey=null;bubble.hidden=false;toggle.setAttribute('aria-expanded','true');}else collapse();});
  close.addEventListener('click',()=>{collapse();toggle.focus({preventScroll:true});});
+ host.addEventListener('keydown',event=>{if(event.key==='Escape'&&!bubble.hidden){event.preventDefault();event.stopPropagation();collapse();toggle.focus({preventScroll:true});}});
  motion.addEventListener('click',()=>{const paused=document.documentElement.dataset.motion!=='paused';document.documentElement.dataset.motion=paused?'paused':'on';try{localStorage.setItem('migrato-motion',paused?'paused':'on');}catch{}refreshSiteGuide();});
  action.addEventListener('click',()=>{
   const state=getState(),tip=currentTip();collapse();
@@ -99,7 +106,17 @@ export function mountSiteGuide({getState,openTool}){
  const update=()=>{const section=locate();if(section&&texts[section.id]&&instance.current!==section.id)guideEvent('section',{section:section.id});};
  if(typeof IntersectionObserver==='function'){const observer=new IntersectionObserver(update,{rootMargin:'-20% 0px -55% 0px',threshold:[0,.1,.5,1]});sections.forEach(section=>observer.observe(section));instance.observer=observer;}
  let ticking=false,searchTimer;
- window.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;update();});}},{passive:true});window.addEventListener('hashchange',update);window.addEventListener('resize',()=>refreshSiteGuide(),{passive:true});
+ const viewportChanged=()=>{
+  const view=globalThis.visualViewport,height=view?.height||globalThis.innerHeight||800;
+  host.style.setProperty('--guide-viewport-height',`${height}px`);
+  host.style.setProperty('--guide-keyboard-offset',`${view&&view.scale===1?Math.max(0,(globalThis.innerHeight||height)-height-view.offsetTop):0}px`);
+  host.dataset.compact=String(height<440);
+  if(!automaticAdviceAllowed())collapse();
+  refreshSiteGuide();
+ };
+ window.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;update();});}},{passive:true});window.addEventListener('hashchange',update);window.addEventListener('resize',viewportChanged,{passive:true});
+ globalThis.visualViewport?.addEventListener('resize',viewportChanged,{passive:true});globalThis.visualViewport?.addEventListener('scroll',viewportChanged,{passive:true});
+ document.addEventListener('focusin',()=>{if(!automaticAdviceAllowed())collapse();});
  document.addEventListener('input',event=>{if(event.target.id!=='faq-search')return;instance.current='faq';clearTimeout(searchTimer);searchTimer=setTimeout(()=>{if(instance.current==='faq')guideEvent('faq-search');},500);});
  document.addEventListener('change',event=>{if(event.target.id==='faq-category'){clearTimeout(searchTimer);guideEvent('faq-search');}else if(event.target.id?.startsWith('onboard-'))guideEvent('profile-edit');});
  document.addEventListener('toggle',event=>{const target=event.target;if(target.matches?.('.faq-item')&&target.open&&(instance.current==='faq'||document.activeElement?.closest?.('#faq'))){clearTimeout(searchTimer);guideEvent('faq-answer',{id:target.dataset.faqId});}},true);
@@ -107,18 +124,13 @@ export function mountSiteGuide({getState,openTool}){
   const anchor=event.target.closest?.('a[href^="#"]');if(anchor){const section=anchor.getAttribute('href').slice(1);if(texts[section])guideEvent('section',{section});}
  });
  document.addEventListener('submit',event=>{const inProfile=event.target.closest?.('#profile-panel')||event.composedPath?.().some(node=>node.id==='profile-panel');if(inProfile&&getState().profile?.ready)guideEvent('profile');});
- refreshSiteGuide();return instance;
+ viewportChanged();return instance;
 }
 export function refreshSiteGuide(){
  if(!instance)return;const i=instance,lang=i.getState().lang,tip=currentTip();
- // On narrow screens advice participates in the section's flow; the Barys button stays in the corner.
- {
-  const section=document.getElementById(i.current)||document.getElementById('start');
-  const slot=section?.querySelector('.hero-copy')||section?.querySelector('.container')||section;
-  const profile=slot?.querySelector('#profile-panel');
-  if(slot&&i.host.parentNode!==slot){if(profile&&typeof slot.insertBefore==='function')slot.insertBefore(i.host,profile);else slot.prepend(i.host);}
- }
- i.host.setAttribute('aria-label',pick(ui.name,lang));i.host.dataset.event=i.event.type;i.name.textContent=pick(ui.name,lang);i.title.textContent=pick(tip.title,lang);
+ // The mascot and its advice stay together in the viewport, outside section layout.
+ i.host.setAttribute('aria-label',pick(ui.name,lang));i.host.dataset.event=i.event.type;
+ const name=pick(ui.name,lang),title=pick(tip.title,lang);if(i.name.textContent!==name)i.name.textContent=name;if(i.title.textContent!==title)i.title.textContent=title;
  const body=pick(tip.body,lang);if(i.body.textContent!==body)i.body.textContent=body;
  i.action.textContent=pick(tip.action,lang);i.toggle.setAttribute('aria-label',pick(ui.toggle,lang));i.close.setAttribute('aria-label',pick(ui.collapse,lang));
  const mood=tip.mood||'explain';if(i.character.dataset.mood!==mood){i.character.className='barys-character barys--'+mood;i.character.dataset.mood=mood;}

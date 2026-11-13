@@ -1,6 +1,6 @@
 
 /* Compact right-corner guide; the original hero illustration stays intact. */
-.site-guide { position:fixed;right:18px;bottom:16px;z-index:45; }
+.site-guide { position:fixed;right:max(18px,env(safe-area-inset-right));bottom:calc(max(16px,env(safe-area-inset-bottom)) + var(--guide-keyboard-offset,0px));z-index:45; }
 .site-guide-toggle { display:flex;align-items:center;justify-content:center;width:100px;height:124px;padding:0;border:0;border-radius:28px;background:#f3f9ffdd;box-shadow:0 4px 18px #163b6620;cursor:pointer; }
 .site-guide-toggle .barys-character { display:block;width:90px; }
 .site-guide-bubble { position:absolute;right:0;bottom:135px;width:310px;max-width:calc(100vw - 28px);padding:22px;border:1px solid #bfd7eb;border-radius:20px;background:#fff;box-shadow:0 12px 42px #173d6424; }
@@ -38,7 +38,7 @@ html[data-motion="paused"] .journey-runner * {animation:none!important;transitio
 /* Persistent scripted advice: the message scrolls, its close/CTA remain available. */
 .site-guide-bubble {
  display:flex;flex-direction:column;gap:12px;
- max-height:calc(100dvh - var(--header-height,112px) - 172px);
+ max-height:min(52dvh,calc(var(--guide-viewport-height,100dvh) - var(--header-height,112px) - 172px));
  min-height:0;overflow:hidden;
 }
 .site-guide-message {flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding-right:5px;}
@@ -60,7 +60,8 @@ body:has(.mobile-menu[open]) #site-guide {display:none;}
 #tool-content .barys-bubble h3 {overflow-wrap:anywhere;}
 #tool-content .barys-bubble .barys-name {padding-right:0;font-size:12px;line-height:1.5;overflow-wrap:anywhere;}
 @media(max-width:700px){
- .site-guide-bubble {max-height:calc(100dvh - var(--header-height,112px) - 134px);gap:10px;}
+ .site-guide {right:max(9px,env(safe-area-inset-right));bottom:calc(max(10px,env(safe-area-inset-bottom)) + var(--guide-keyboard-offset,0px));}
+ .site-guide-bubble {max-height:min(52dvh,calc(var(--guide-viewport-height,100dvh) - var(--header-height,112px) - 134px));gap:10px;}
  #tool-content .barys-guide {grid-template-columns:minmax(0,1fr)68px;gap:8px;padding:13px 10px 13px 13px;}
  #tool-content .barys-guide > .barys-character {width:68px;}
  #tool-content .barys-bubble .barys-greeting {font-size:13px;line-height:1.7;}
@@ -83,22 +84,8 @@ html[data-motion="paused"] .consultant-message-motion {opacity:1!important;trans
  .consultant-message-motion {opacity:1!important;transform:none!important;animation:none!important;}
 }
 
-
-/* Mobile advice never covers the profile or CTA: the text is inline, Barys stays bottom-right. */
-@media(max-width:700px){
- .site-guide{position:relative;inset:auto;z-index:1;width:100%;margin:18px 0;}
- .site-guide-toggle{position:fixed;right:9px;bottom:max(10px,env(safe-area-inset-bottom));z-index:45;}
- .site-guide-bubble{position:relative;inset:auto;width:100%;max-width:100%;max-height:none;overflow:visible;padding:18px;display:flex;}
- .site-guide-message{overflow:visible;max-height:none;scrollbar-gutter:auto;}
- .site-guide-message h3{font-size:19px;}.site-guide-message > p:not(.barys-name){font-size:15px;line-height:1.6;}
- .site-guide:has(.site-guide-bubble[hidden]){margin:0;}
- body:has(input:focus,select:focus,textarea:focus) .site-guide-toggle{visibility:hidden;}
+/* In a short viewport manual advice opens beside the mascot, with reachable controls. */
+.site-guide[data-compact="true"] .site-guide-bubble {
+ bottom:0;right:110px;width:min(310px,calc(100vw - 140px));
+ max-height:calc(var(--guide-viewport-height,100dvh) - 32px);
 }
-
-/* Advice is part of the reading flow on every screen; only the mascot button floats. */
-.site-guide{position:relative;inset:auto;z-index:1;width:100%;margin:18px 0;}
-.site-guide-toggle{position:fixed;right:18px;bottom:max(16px,env(safe-area-inset-bottom));z-index:45;}
-.site-guide-bubble{position:relative;inset:auto;width:min(100%,520px);max-width:100%;max-height:none;margin-left:auto;overflow:visible;display:flex;}
-.site-guide-message{overflow:visible;max-height:none;scrollbar-gutter:auto;}
-.site-guide:has(.site-guide-bubble[hidden]){margin:0;}
-@media(max-width:700px){.site-guide-toggle{right:9px;bottom:max(10px,env(safe-area-inset-bottom));}.site-guide-bubble{width:100%;}}

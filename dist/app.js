@@ -12,7 +12,7 @@ import {faq,faqSources} from './data/faq.js';
 import {renderProfile} from './modules/profile.js';
 import {personas,mapDescription,faqForCategory} from './data/personas.js';
 
-const releaseInfo={version:16,date:'13.11.2026'};
+const releaseInfo={version:18,date:'13.11.2026'};
 const storageKey='migrato-progress-v1';
 const categories=new Set(['student','worker','remote','relocate']);
 const profileCities=new Set(['astana','almaty','shymkent']);
