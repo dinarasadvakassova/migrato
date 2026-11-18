@@ -7,6 +7,7 @@ const words={
  steps:tri('Что сделать','Не істеу керек','What to do'),authority:tri('Куда обратиться','Қайда жүгіну керек','Who to contact'),ask:tri('Что спросить','Не сұрау керек','What to ask'),official:tri('Официальная страница','Ресми парақша','Official page'),search:tri('Поиск по вопросам и ответам','Сұрақтар мен жауаптардан іздеу','Search questions and answers'),category:tri('Тема вопроса','Сұрақ тақырыбы','Question topic')
 };
 const categories={
+ residence:tri('ПМЖ и ВНЖ','Тұрақты тұру және ықтиярхат','Permanent residence and residence card'),temporary:tri('РВП','Уақытша тұру','Temporary residence'),citizenship:tri('Гражданство','Азаматтық','Citizenship'),protection:tri('Беженство и политическое убежище','Босқын мәртебесі және саяси баспана','Refugee status and political asylum'),family:tri('Семья и дети','Отбасы және балалар','Family and children'),
  migration:tri('Миграция и документы','Көші-қон және құжаттар','Migration and documents'),documents:tri('Документы','Құжаттар','Documents'),registration:tri('Уведомление и регистрация','Хабарлама және тіркеу','Notification and registration'),
  banking:tri('Банки и финансы','Банктер және қаржы','Banking and finance'),bank:tri('Банковские услуги','Банк қызметтері','Banking'),finance:tri('Финансы','Қаржы','Finance'),
  housing:tri('Жильё и аренда','Баспана және жалдау','Housing and rental'),rental:tri('Аренда','Жалдау','Rental'),work:tri('Работа','Жұмыс','Work'),employment:tri('Работа','Жұмыс','Work'),study:tri('Учёба','Оқу','Study'),
@@ -43,6 +44,17 @@ export function mountFAQ({lang='ru',container,faq=[],faqSources=[],search=docume
  state.filter.value=state.category;state.search.value=state.query;
  renderFAQ(state);return {refresh:()=>renderFAQ(state),get query(){return state.query;},get category(){return state.category;}};
 }
+export function openFAQAnswer(container,id){
+ const state=instances.get(container),item=state?.faq.find(row=>row.id===id);
+ if(!item)return false;
+ state.category='all';state.query=pick(item.question,state.lang);
+ state.filter.value='all';state.search.value=state.query;renderFAQ(state);
+ const details=[...state.results.querySelectorAll('details[data-faq-id]')].find(node=>node.dataset.faqId===id);
+ if(!details)return false;
+ state.openIds.add(id);details.open=true;
+ details.scrollIntoView({block:'start',behavior:document.documentElement.dataset.motion==='paused'?'auto':'smooth'});
+ details.querySelector('summary')?.focus({preventScroll:true});return true;
+}
 function renderFAQ(state){
  state.results.querySelectorAll('details[data-faq-id]').forEach(details=>{if(details.open)state.openIds.add(details.dataset.faqId);else state.openIds.delete(details.dataset.faqId);});
  const found=filterFAQ(state.faq,{lang:state.lang,query:state.query,category:state.category});
@@ -52,7 +64,9 @@ function renderFAQ(state){
  found.forEach(item=>{
   const body=el('div',{class:'faq-answer'},el('p',{},pick(item.answer,state.lang)));
   if(item.steps?.length)body.append(el('h4',{},pick(words.steps,state.lang)),el('ol',{},item.steps.map(step=>el('li',{},pick(step,state.lang)))));
-  body.append(el('h4',{},pick(words.authority,state.lang)),el('p',{},pick(item.authority,state.lang)),el('h4',{},pick(words.ask,state.lang)),el('p',{},pick(item.ask,state.lang)),sourceList(item,state));
+  body.append(el('h4',{},pick(words.authority,state.lang)),el('p',{},pick(item.authority,state.lang)));
+  if(pick(item.ask,state.lang))body.append(el('h4',{},pick(words.ask,state.lang)),el('p',{},pick(item.ask,state.lang)));
+  body.append(sourceList(item,state));
   const details=el('details',{class:'faq-item','data-faq-id':item.id,open:state.openIds.has(item.id)},el('summary',{id:`faq-question-${item.id}`},pick(item.question,state.lang)),body);
   details.addEventListener('toggle',()=>{if(details.open)state.openIds.add(item.id);else state.openIds.delete(item.id);});state.results.append(details);
  });

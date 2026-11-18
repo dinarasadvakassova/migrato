@@ -1,4 +1,4 @@
-import {pick, sources, actions} from '../data/content.js';
+import {pick, sources, actions,actionFAQ} from '../data/content.js';
 
 export const tri = (ru,kk,en) => ({ru,kk,en});
 export const labels = {
@@ -28,7 +28,8 @@ export function t(ctx,value) { return String(pick(value,ctx.lang)??''); }
 export function button(ctx,label,fn,attrs={}) { return el('button',{type:'button',class:'button button-secondary',onclick:fn,...attrs},t(ctx,label)); }
 export function note(ctx,text,kind='') {return el('p',{class:`tool-note ${kind}`},t(ctx,text));}
 export function sourceBox(ctx,ids=[]) {
-  const items=[...new Set(ids)].map(id=>sources.find(s=>s.id===id)).filter(Boolean);
+  const registry=[...sources,...(ctx.extraSources||[])];
+  const items=[...new Set(ids)].map(id=>registry.find(s=>s.id===id)).filter(Boolean);
   if(!items.length)return document.createDocumentFragment();
   return el('aside',{class:'source-box'},el('h4',{},t(ctx,labels.sources)),el('ul',{class:'source-list'},items.map(s=>el('li',{},el('a',{href:s.url,target:'_blank',rel:'noopener noreferrer'},t(ctx,s.title)),el('small',{},` ${t(ctx,s.reference)} · ${t(ctx,labels.checked)}: ${s.checked}`),s.verificationScope?el('small',{class:'source-verification'},t(ctx,s.verificationScope)):null))));
 }
@@ -59,7 +60,7 @@ export function planSummary(state) {
 export function task(ctx,action) {
   const input=el('input',{type:'checkbox',checked:ctx.state.actionDone[action.id],onchange:e=>{ctx.state.actionDone[action.id]=e.target.checked;if(ctx.state.actionReview)delete ctx.state.actionReview[action.id];review?.remove();ctx.save();ctx.updateProgress();ctx.onTaskChange?.(action.id,e.target.checked);}});
   const review=ctx.state.actionReview?.[action.id]?el('p',{class:'tool-note warning'},t(ctx,tri('Условия изменились. Перепроверьте действие перед повторной отметкой.','Шарттар өзгерді. Қайта белгілемес бұрын әрекетті тексеріңіз.','Conditions changed. Review this action before confirming it again.'))):null;
-  const help=()=>{if(ctx.state.navigator){ctx.state.navigator.problem={migration:'documents',finance:'banking',housing:'housing',work:'employment'}[action.group]||null;ctx.state.navigator.option=null;ctx.save();}ctx.openTool?.('navigator');};
+  const help=()=>{if(action.id==='language'){ctx.openTool?.('phrases');return;}if(actionFAQ[action.id])ctx.openHelp?.('',actionFAQ[action.id]);};
   const doesNotFit=()=>{
    ctx.state.actionHistory??=[];ctx.state.actionReview??={};
    ctx.state.actionHistory.push({taskId:action.id,recordedAt:new Date().toISOString(),reason:'user-needs-clarification',previouslyDone:Boolean(ctx.state.actionDone[action.id])});
@@ -67,7 +68,7 @@ export function task(ctx,action) {
    ctx.save();ctx.updateProgress();ctx.onTaskChange?.(action.id,false);help();
   };
   const instruction=el('details',{},el('summary',{},t(ctx,tri('Инструкция и источники','Нұсқаулық және дереккөздер','Instructions and sources'))),el('p',{},t(ctx,action.description)),sourceBox(ctx,action.sourceIds));
-  const controls=ctx.openTool?el('div',{class:'task-actions'},button(ctx,tri('Нужна помощь','Көмек қажет','Get help'),help),button(ctx,tri('Не подходит','Сәйкес келмейді','Does not fit'),doesNotFit)):null;
+  const controls=ctx.openTool&&action.id!=='safety'?el('div',{class:'task-actions'},button(ctx,tri('Нужна помощь','Көмек қажет','Get help'),help),button(ctx,tri('Не подходит','Сәйкес келмейді','Does not fit'),doesNotFit)):null;
   return el('li',{class:'task-row'},el('label',{},input,el('span',{},el('strong',{},t(ctx,action.title)))),review,instruction,controls);
 }
 export function taskList(ctx,list) {return el('ul',{class:'task-list'},list.map(a=>task(ctx,a)));}

@@ -1,0 +1,19 @@
+.budget-form { display: grid; gap: 28px; }
+.budget-form .budget-scenario { display: block; }
+.budget-form .budget-scenario > legend { margin-bottom: 7px; font-size: 18px !important; }
+.budget-section-hint { margin: 0 0 16px; color: var(--color-muted); font-size: 14px; line-height: 1.6; }
+.budget-fields .field { align-content: start; }
+.budget-fields .field > small { color: var(--color-muted); font-size: 13px; line-height: 1.55; }
+.budget-summary { display: grid; gap: 17px; margin-top: 8px; }
+.budget-summary > .budget-section-hint { margin: 0; }
+.budget-details, .budget-example { padding: 16px 18px; border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-bg); }
+.budget-details > summary, .budget-example > summary { min-height: 32px; cursor: pointer; font-weight: 650; line-height: 1.5; }
+.budget-example > p { margin: 12px 0 0; color: var(--color-muted); line-height: 1.65; }
+.budget-breakdown { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px 16px; margin: 15px 0 0; }
+.budget-breakdown dt { color: var(--color-muted); line-height: 1.5; }
+.budget-breakdown dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+@media (max-width: 540px) {
+ .budget-totals { grid-template-columns: 1fr; }
+ .budget-breakdown { grid-template-columns: minmax(0,1fr); gap: 3px; }
+ .budget-breakdown dd { text-align: left; margin-bottom: 10px; }
+}

@@ -1,0 +1,33 @@
+.migration-controls { margin-block: 1rem; }
+.migration-table-scroll { max-width: 100%; overflow-x: auto; border: 1px solid var(--line, #d9e5ec); border-radius: 16px; margin-block: .5rem 1.25rem; }
+.migration-comparison { width: 100%; min-width: 35rem; border-collapse: collapse; table-layout: fixed; color: inherit; background: #fff; }
+.migration-comparison caption { padding: .85rem 1rem; text-align: left; font-weight: 700; color: var(--ink, #193b51); }
+.migration-comparison th, .migration-comparison td { padding: .85rem; border-top: 1px solid var(--line, #d9e5ec); border-right: 1px solid var(--line, #d9e5ec); text-align: left; vertical-align: top; overflow-wrap: anywhere; line-height: 1.55; }
+.migration-comparison th:last-child, .migration-comparison td:last-child { border-right: 0; }
+.migration-comparison thead th { background: #edf6fb; font-weight: 700; }
+.migration-comparison th:first-child { width: 24%; }
+.migration-comparison tbody th { font-size: .95rem; }
+.migration-scroll-hint { font-size: .9rem; color: var(--muted, #526a79); }
+.migration-table-scroll:focus-visible { outline: 3px solid #2178aa; outline-offset: 3px; }
+.migration-document-list { display: grid; gap: 1rem; margin-block: 1.25rem; }
+.migration-document-row { min-width: 0; margin: 0; padding: 1rem; border: 1px solid var(--line, #d9e5ec); border-radius: 15px; background: #fff; }
+.migration-document-row legend { padding-inline: .35rem; max-width: 100%; font-weight: 700; overflow-wrap: anywhere; }
+.migration-document-row .field { margin-top: .65rem; }
+.migration-document-row select { width: 100%; min-height: 48px; }
+.migration-document-hint, .migration-optional { margin: .25rem 0 .5rem; color: var(--muted, #526a79); line-height: 1.5; }
+.migration-optional { font-size: .9rem; font-weight: 600; }
+.migration-readiness-result { padding-block: .75rem; }
+.migration-readiness-result h4 { margin-top: 1rem; }
+.migration-readiness-result ul { padding-left: 1.4rem; line-height: 1.65; }
+.migration-date-state { border-inline-start: 4px solid #4f8eaf; padding: .75rem 1.1rem; margin-block: .75rem 1rem; background: #f0f7fb; }
+.migration-date-state--expired { border-inline-start-color: #a3543f; background: #fcf4ef; }
+.migration-date-state p { margin: .3rem 0; }
+.migration-day-number { font-size: clamp(2rem, 6vw, 3rem); font-weight: 750; font-variant-numeric: tabular-nums; line-height: 1.15; }
+.migration-device-date { color: var(--muted, #526a79); font-size: .95rem; }
+.migration-expiry-result { margin-block: 1rem; }
+@media (max-width: 600px) {
+ .migration-comparison { min-width: 31rem; }
+ .migration-comparison th, .migration-comparison td { padding: .7rem; font-size: .95rem; }
+ .migration-document-row { padding: .8rem; }
+ .migration-expiry-result .button { width: 100%; }
+}

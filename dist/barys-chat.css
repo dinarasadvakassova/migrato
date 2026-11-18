@@ -1,0 +1,18 @@
+.guide-chat-open{min-height:44px;width:100%;padding:10px 12px;border:1px solid #bdd5e8;border-radius:12px;background:#edf6ff;color:#174e7a;font:inherit;font-size:14px;cursor:pointer}
+.site-guide-bubble.is-chat{width:min(390px,calc(100vw - 28px));display:flex;max-height:min(70dvh,calc(var(--guide-viewport-height,100dvh) - 150px));}
+.site-guide-bubble.is-chat>.site-guide-message,.site-guide-bubble.is-chat>.button{display:none}
+.guide-chat{min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding-right:6px}
+.guide-chat h3{padding-right:18px;font-size:19px}.guide-chat h4{font-size:15px;line-height:1.5;margin:14px 0 6px}
+.guide-chat p,.guide-chat li{font-size:14px;line-height:1.65;overflow-wrap:anywhere}
+.guide-chat-scope,.guide-chat-note{color:#50627a}.guide-chat-note{font-size:12px!important}
+.guide-chat-choices{display:grid;gap:9px}.guide-chat-choice{min-height:44px;text-align:left;font:inherit;font-size:14px;line-height:1.5;border:1px solid #c6d8e8;border-radius:12px;padding:10px 12px;background:#f6faff;color:#183c60;cursor:pointer}
+.guide-chat>.button{margin-top:9px}.guide-chat .source-box{padding:10px}.guide-chat .source-box small{font-size:11px}
+.guide-chat :is(a,button):focus-visible{outline:3px solid #175db7;outline-offset:2px}
+.barys-sparkles{position:absolute;pointer-events:none;left:50%;bottom:55px;width:0;height:0}.barys-sparkles>span{position:absolute;width:7px;height:7px;border-radius:2px;background:#79b6de;animation:barys-spark 600ms ease-out var(--spark-delay) both}
+.barys-sparkles>span:nth-child(2n){background:#d3b768}
+@keyframes barys-spark{from{opacity:1;transform:translate(0,0) rotate(0) scale(.4)}to{opacity:0;transform:translate(var(--spark-x),var(--spark-y)) rotate(120deg) scale(1)}}
+@media(max-height:520px){.site-guide-bubble.is-chat{right:110px;width:min(390px,calc(100vw - 140px));max-height:calc(var(--guide-viewport-height,100dvh) - 32px)}}
+@media(max-width:700px){.site-guide-bubble.is-chat{max-height:calc(var(--guide-viewport-height,100dvh) - 148px)}.guide-chat-choice{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.barys-sparkles{display:none}}
+html[data-motion="paused"] .barys-sparkles{display:none}
+.practice-tools{margin-bottom:30px}

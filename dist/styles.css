@@ -511,3 +511,7 @@ label.task-row { display: flex; align-items: flex-start; }
 .source-verification{display:block;font-size:12px;line-height:1.5;margin-top:5px;color:#665321;}
 
 .task-actions{display:flex;flex-wrap:wrap;gap:8px;}.task-actions button{min-height:44px;font-size:13px;}
+
+/* One distinct result per entry card. */
+.documents-section .tool-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:700px){.documents-section .tool-cards{grid-template-columns:minmax(0,1fr)}}

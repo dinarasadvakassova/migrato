@@ -17,7 +17,7 @@ const recoveryWords={
  count:tri('Дополнительных восстановительных этапов','Қосымша қалпына келтіру кезеңдері','Additional recovery stages'),
  arrival:tri('После отложенного разговора у вас по-прежнему нет подтверждения уведомления. Вы возвращаетесь к принимающей стороне, чтобы выяснить следующий шаг.','Әңгіме кейінге қалған соң хабарламаның растауы әлі жоқ. Келесі қадамды анықтау үшін қабылдаушы тарапқа қайта ораласыз.','After postponing the conversation, you still have no notification confirmation. You return to your host to identify the next step.'),
  documents:tri('ИИН уже получен, а вопрос основания пребывания в истории остался открытым. Прежде чем продолжать обустройство, нужно разобраться именно с этим вопросом.','ЖСН алынды, бірақ оқиғада болу негізі туралы мәселе ашық қалды. Орналасуды жалғастырмас бұрын осы мәселені анықтау керек.','You have an IIN, but the story has left your grounds for stay unresolved. Address this issue before continuing to settle in.'),
- home:tri('После поспешного решения условия аренды и полномочия сдающего жильё остались непроверенными. Вы возвращаетесь к обсуждению договора.','Асығыс шешімнен кейін жалдау шарттары мен жалға берушінің өкілеттігі тексерілмеді. Шартты талқылауға қайта ораласыз.','After a rushed decision, the rental terms and the letting authority remain unchecked. You return to discussing the agreement.'),
+ home:tri('Договор есть, но участие принимающей стороны и согласие на жильё для РВП остались нерешёнными. Вернитесь к согласованию до подачи документов.','Шарт бар, бірақ қабылдаушы тараптың қатысуы мен уақытша тұруға баспана келісімі шешілмеді. Құжат бермес бұрын бұларды келісуге оралыңыз.','You have a lease, but the host’s involvement and housing consent for temporary residence remain unresolved. Agree on them before submitting documents.'),
  money:tri('В истории выбран посредник из чата, а требования конкретного банка и официальный канал не проверены. Следующий шаг — изменить способ выяснения условий.','Оқиғада чаттағы делдал таңдалды, ал нақты банктің талаптары мен ресми арна тексерілмеді. Келесі қадам — шарттарды анықтау тәсілін өзгерту.','The story took you to a chat intermediary without checking the selected bank or its official channel. Your next step is to change how you obtain the requirements.'),
  settle:tri('Учебная игра подошла к концу, но реальные вопросы работы, учёбы и повседневной жизни ещё не выполнены. Разделите учебный результат и свои последующие действия.','Оқу ойыны аяқталуға жақын, бірақ жұмыс, оқу және күнделікті өмірдің нақты міндеттері әлі орындалмады. Оқу нәтижесін кейінгі нақты әрекеттерден ажыратыңыз.','The learning game is nearly over, but real work, study and everyday tasks are not complete. Separate the learning result from your practical next steps.')
 };
@@ -135,26 +135,26 @@ export function navigator(ctx) {
 
 export function rental(ctx) {
  const s=ctx.state.rental;
- ctx.container.append(el('h3',{},t(ctx,words.rental)),note(ctx,words.rentalIntro));
+ const housingWords={
+  title:tri('Жильё и миграционные документы','Баспана және көші-қон құжаттары','Accommodation and immigration documents'),
+  intro:tri('Перед вами восемь независимых учебных ситуаций. Отметьте условия, которые требуют внимания при подготовке миграционных документов. Это не проверка загруженного договора.','Алдыңызда сегіз тәуелсіз оқу жағдайы берілген. Көші-қон құжаттарын дайындағанда назар аударуды қажет ететін шарттарды белгілеңіз. Бұл жүктелген шартты тексеру емес.','These are eight independent learning situations. Mark the arrangements that need attention when preparing immigration documents. This does not review an uploaded agreement.'),
+  source:tri('Проверить основание','Негізді тексеру','Check the source'),
+  questions:tri('Конкретные вопросы принимающей стороне','Қабылдаушы тарапқа нақты сұрақтар','Specific questions for the host'),
+  result:tri('Учебный результат','Оқу нәтижесі','Learning result'),
+  note:tri('Оценка показывает, как вы распознали риски в учебных ситуациях. Она не подтверждает пригодность настоящего договора, законность пребывания или принятие документов. Порядок действий и перечень подтверждений уточняйте для своей процедуры.','Баға оқу жағдайларындағы тәуекелдерді қалай анықтағаныңызды көрсетеді. Ол нақты шарттың жарамдылығын, заңды болуды немесе құжаттардың қабылдануын растамайды. Әрекет тәртібі мен растау тізімін өз рәсіміңіз үшін нақтылаңыз.','The score shows how you recognised risks in these learning situations. It does not establish the suitability of a real agreement, lawful stay or acceptance of documents. Confirm the process and evidence for your own procedure.')
+ };
+ ctx.container.append(el('h3',{},t(ctx,housingWords.title)),note(ctx,housingWords.intro));
  const list=el('ol',{class:'rental-clauses'});
  rentalClauses.forEach((clause,index)=>{
   const checked=Boolean(s.marked[clause.id]);
   const item=el('li',{},el('label',{class:'task-row'},el('input',{id:`clause-${clause.id}`,type:'checkbox',checked,onchange:e=>{const wasEvaluated=s.evaluated;s.marked[clause.id]=e.target.checked;s.evaluated=false;ctx.save();if(wasEvaluated){ctx.render();document.getElementById(`clause-${clause.id}`)?.focus({preventScroll:true});}}}),el('span',{},el('strong',{},`${index+1}. `),t(ctx,clause.text))));
-  if(s.evaluated)item.append(el('div',{class:`result-box ${checked===clause.needsAttention?'success':'warning'}`},el('strong',{},t(ctx,clause.needsAttention?words.attention:words.neutral)),el('p',{},t(ctx,clause.explanation)),sourceBox(ctx,clause.sourceIds)));
+  if(s.evaluated)item.append(el('div',{class:`result-box ${checked===clause.needsAttention?'success':'warning'}`},el('strong',{},t(ctx,clause.needsAttention?words.attention:words.neutral)),el('p',{},t(ctx,clause.explanation)),el('details',{},el('summary',{},t(ctx,housingWords.source)),sourceBox(ctx,clause.sourceIds))));
   list.append(item);
  });
- ctx.container.append(list,button(ctx,words.evaluate,()=>{s.evaluated=true;ctx.save();ctx.render();ctx.announce(t(ctx,words.matched));}),note(ctx,words.rentalNote));
+ ctx.container.append(list,button(ctx,words.evaluate,()=>{s.evaluated=true;ctx.save();ctx.render();ctx.announce(t(ctx,words.matched));}),note(ctx,housingWords.note));
  if(s.evaluated){
-  const score=rentalClauses.filter(c=>Boolean(s.marked[c.id])===c.needsAttention).length;
-  ctx.container.append(el('p',{class:'result-score'},`${t(ctx,words.matched)}: ${score} / ${rentalClauses.length}`));
-  const questions={
-   authority:tri('Чем подтверждается ваше право сдавать это жильё?','Осы баспананы жалға беру құқығыңыз немен расталады?','What confirms your authority to let this property?'),
-   deposit:tri('Когда и как возвращается депозит, какие удержания возможны и чем подтверждается платёж?','Депозит қашан және қалай қайтарылады, қандай ұсталымдар болуы мүмкін және төлем қалай расталады?','When and how is the deposit returned, which deductions may apply, and how is payment recorded?'),
-   repair:tri('Кто отвечает за ремонт и каковы согласованные условия прекращения аренды и передачи жилья?','Жөндеуге кім жауапты және жалдауды тоқтату мен баспананы тапсырудың келісілген шарттары қандай?','Who is responsible for repairs, and what are the agreed termination and handover terms?')
-  };
-  ctx.container.append(el('section',{class:'result-box rental-questions'},
-   el('h4',{},t(ctx,tri('Вопросы арендодателю','Жалға берушіге сұрақтар','Questions for the landlord'))),
-   el('ul',{},rentalClauses.filter(c=>c.needsAttention&&questions[c.id]).map(c=>el('li',{},t(ctx,questions[c.id]))))));
+  const score=rentalClauses.filter(clause=>Boolean(s.marked[clause.id])===clause.needsAttention).length;
+  ctx.container.append(el('p',{class:'result-score'},`${t(ctx,housingWords.result)}: ${score} / ${rentalClauses.length}`),el('section',{class:'result-box rental-questions'},el('h4',{},t(ctx,housingWords.questions)),el('ul',{},rentalClauses.filter(clause=>clause.needsAttention).map(clause=>el('li',{},t(ctx,clause.ask))))));
   setProgress(ctx,score,rentalClauses.length);
  }
 }

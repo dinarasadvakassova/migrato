@@ -1,0 +1,13 @@
+.request-topic-description { margin: 0; color: var(--color-muted); line-height: 1.65; }
+.request-questions { display: grid; gap: 10px; }
+.request-question > span { line-height: 1.6; }
+.request-selection-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 5px; }
+.request-preview { display: grid; gap: 12px; }
+.request-preview h3, .request-count { margin: 0; }
+.request-count { color: var(--color-muted); font-size: 14px; }
+.phrase-output.request-output { font-family: var(--font-body); font-size: 16px; line-height: 1.6; font-weight: 400; min-height: 250px; padding: 18px; }
+.request-preview .tool-actions { margin-top: 0; }
+@media (max-width: 540px) {
+ .request-selection-actions { display: grid; }
+ .request-selection-actions .button { width: 100%; }
+}

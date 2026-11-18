@@ -44,15 +44,11 @@ export const personas={
 export function mapDescription(city){const name=cityNames[city];if(!name)return null;return T(`Ваш город — ${name.ru}. Найдите полезные организации и уточните адрес, компетенцию и условия приёма по официальным ссылкам.`,`Сіздің қалаңыз — ${name.kk}. Пайдалы ұйымдарды тауып, мекенжайын, құзыретін және қабылдау шарттарын ресми сілтемелерден нақтылаңыз.`,`Your city is ${name.en}. Find useful organisations and confirm addresses, responsibilities and reception terms through official links.`);}
 
 export function quizForCategory(category,base=quiz){
- if(category==='student'||!personas[category])return base;
- const reference=base.find(q=>q.id==={worker:'q7',remote:'q9',relocate:'q10'}[category]);
- if(!reference)return base;
- const scenario={
-  worker:{topic:T('Подготовка к работе','Жұмысқа дайындық','Preparing for work'),question:T('В учебной истории банк уже ответил на ваши вопросы, а работодатель предлагает обсудить выход на работу. Что уточните до начала?','Оқу оқиғасында банк сұрақтарыңызға жауап берді, ал жұмыс беруші жұмысты бастауды талқылауды ұсынады. Бастамас бұрын нені нақтылайсыз?','In the learning story, the bank has answered your questions and an employer wants to discuss starting work. What should you clarify first?'),options:[T('Только номер банковского счёта','Тек банк шотының нөмірін','Only the bank account number'),T('Право выполнять работу и надлежащее письменное оформление договора','Жұмыс істеу құқығы мен шарттың тиісті жазбаша ресімделуін','Work eligibility and proper written contract formalities'),T('Только дату первого перевода','Тек алғашқы аударым күнін','Only the first payment date')]},
-  remote:{topic:T('Удалённая занятость','Қашықтан жұмыс','Remote employment'),question:T('В учебной истории вы получаете зарубежный доход и выбираете жильё надолго. Какой вопрос нужно проверить отдельно?','Оқу оқиғасында шетелдік табыс алып, ұзақ мерзімге баспана таңдайсыз. Қай мәселені бөлек тексеру керек?','In the learning story, you earn income abroad and are choosing a long-term rental. Which issue needs a separate check?'),options:[T('Только удобство домашнего интернета','Тек үй интернетінің ыңғайлылығын','Only home internet convenience'),T('Основание пребывания и применимые трудовые и финансовые требования','Болу негізі мен қолданылатын еңбек және қаржы талаптарын','Grounds for stay and applicable work and financial requirements'),T('Ничего: доход автоматически решает все вопросы','Ештеңені: табыс барлық мәселені автоматты шешеді','Nothing: income automatically resolves everything')]},
-  relocate:{topic:T('План длительного переезда','Ұзақ мерзімге көшу жоспары','Longer relocation plan'),question:T('В учебной истории уведомление о прибытии уже подано. Как продолжить план длительного переезда?','Оқу оқиғасында келу туралы хабарлама берілді. Ұзақ мерзімге көшу жоспарын қалай жалғастырасыз?','In the learning story, arrival notification has been submitted. How should the longer relocation plan continue?'),options:[T('Считать все документы оформленными','Барлық құжат ресімделді деп санау','Assume all documents are complete'),T('Отдельно проверить регистрацию и применимое основание проживания','Тіркеу мен қолданылатын тұру негізін бөлек тексеру','Separately check registration and applicable residence grounds'),T('Проверить только условия аренды','Тек жалдау шарттарын тексеру','Check only the rental terms')]}
- }[category];
- return base.map(question=>question.id==='q8'?{...question,...scenario,correct:1,explanation:reference.explanation,sourceIds:[...reference.sourceIds]}:question);
+ if(!personas[category])return base;
+ // Prioritise the relevant existing question without duplicating its subject
+ // as a second, superficially personalised question.
+ const first={student:'q8',worker:'q7',remote:'q9',relocate:'q5'}[category];
+ return [...base.filter(question=>question.id===first),...base.filter(question=>question.id!==first)];
 }
 export function simulationForCategory(category,base=simulation){
  const persona=personas[category];if(!persona)return base;

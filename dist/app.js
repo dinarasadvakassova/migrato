@@ -3,26 +3,32 @@ import {mountSiteGuide,refreshSiteGuide,guideEvent} from './modules/site-guide.j
 import {mountBarys,setupBarys,notifyBarys} from './modules/barys.js';
 import {content,pick,actions,sources} from './data/content.js';
 import {el,t,tri,labels,select,setProgress,planSummary,focusTarget,captureFocus,restoreFocus} from './modules/shared.js';
-import {route,calendar,checklist} from './modules/planning.js';
+import {route} from './modules/planning.js';
+import {compareStatuses,documentReadiness,documentExpiry} from './modules/migration-tools.js';
+import {revisionUI} from './data/revision-ui.js';
+import {requestGroups} from './data/requests.js';
+import {mountBarysChat,refreshBarysChat,openBarysChat} from './modules/barys-chat.js';
 import {simulation,createSimulationState,quiz,navigator as problemNavigator,rental} from './modules/learning.js';
 import {budget,phrases} from './modules/practical.js';
 import {map} from './modules/places-directory.js';
-import {mountFAQ} from './modules/faq.js';
+import {mountFAQ,openFAQAnswer} from './modules/faq.js';
 import {faq,faqSources} from './data/faq.js';
 import {renderProfile} from './modules/profile.js';
 import {personas,mapDescription,faqForCategory} from './data/personas.js';
 
-const releaseInfo={version:18,date:'13.11.2026'};
+for(const [key,value] of Object.entries(revisionUI))for(const lang of ['ru','kk','en'])content[lang][key]=value[lang];
+const releaseInfo={version:20,date:'18.11.2026'};
 const storageKey='migrato-progress-v1';
 const categories=new Set(['student','worker','remote','relocate']);
 const profileCities=new Set(['astana','almaty','shymkent']);
 const profileCitizenships=new Set(['am','az','by','kg','md','ru','tj','tm','ua','uz','other','unknown']);
-const tools={simulation,route,quiz,calendar,navigator:problemNavigator,map,checklist,budget,rental,phrases};
+const tools={simulation,route,quiz,calendar:documentExpiry,navigator:compareStatuses,map,checklist:documentReadiness,budget,rental,phrases};
 const titles={simulation:tri('Жизнь в Казахстане: симуляция','Қазақстандағы өмір: симуляция','Life in Kazakhstan: simulation'),route:tri('Мой маршрут','Менің жоспарым','My route'),quiz:tri('Проверьте знания','Біліміңізді тексеріңіз','Test your knowledge'),calendar:tri('Календарь действий','Іс-қимыл күнтізбесі','Action calendar'),navigator:tri('Навигатор по ситуациям','Жағдайлар навигаторы','Situation navigator'),map:tri('Полезные адреса и 2ГИС','Пайдалы мекенжайлар және 2GIS','Useful addresses and 2GIS'),checklist:tri('Чек-лист адаптации','Бейімделу тізімі','Adaptation checklist'),budget:tri('Бюджет переезда','Көшу бюджеті','Moving budget'),rental:tri('Проверка учебного договора','Оқу шартын тексеру','Sample contract review'),phrases:tri('Конструктор обращений','Өтініш құрастыру','Request phrase builder')};
 const descriptions={simulation:tri('Принимайте решения и сравнивайте их последствия с источниками.','Шешім қабылдап, салдарын дереккөздермен салыстырыңыз.','Make decisions and compare their consequences with the sources.'),route:tri('Выберите свою ситуацию и получите последовательность справочных шагов.','Жағдайыңызды таңдап, ақпараттық қадамдар ретін алыңыз.','Choose your situation and get an ordered reference checklist.'),quiz:tri('12 ситуаций с объяснениями и официальными источниками.','Түсіндірмелер мен ресми дереккөздері бар 12 жағдай.','12 situations with explanations and official sources.'),calendar:tri('Плановые ориентиры с источниками и ваши собственные даты.','Дереккөздері бар жоспарлы бағдарлар мен өз күндеріңіз.','Source-linked planning targets and your own dates.'),navigator:tri('Готовые сценарии помогают найти следующий шаг.','Дайын сценарийлер келесі қадамды табуға көмектеседі.','Preset scenarios help you find your next step.'),map:tri('Организации в Астане, Алматы и Шымкенте.','Астана, Алматы және Шымкент қалаларындағы ұйымдар.','Organisations in Astana, Almaty and Shymkent.'),checklist:tri('Отмечайте реальные действия по мере выполнения.','Нақты әрекеттерді орындалуына қарай белгілеңіз.','Check off real actions as you complete them.'),budget:tri('Два варианта с вашими суммами в тенге.','Өзіңіздің теңгедегі сомаларыңыз бар екі нұсқа.','Two scenarios using your own amounts in tenge.'),rental:tri('Найдите условия, которые требуют внимания.','Назар аударуды қажет ететін талаптарды табыңыз.','Find clauses that need attention.'),phrases:tri('Подготовьте вопрос на русском, казахском или английском.','Сұрақты орыс, қазақ немесе ағылшын тілінде дайындаңыз.','Prepare a request in Russian, Kazakh or English.')};
+for(const id of Object.keys(tools)){if(revisionUI[`tool.${id}.title`])titles[id]=revisionUI[`tool.${id}.title`];if(revisionUI[`tool.${id}.description`])descriptions[id]=revisionUI[`tool.${id}.description`];}
 const words={language:tri('Язык интерфейса','Интерфейс тілі','Interface language'),storageError:tri('Сохранение в браузере недоступно. Прогресс останется только до закрытия этой страницы.','Браузерде сақтау қолжетімсіз. Прогресс осы бет жабылғанша ғана сақталады.','Browser storage is unavailable. Progress will last only until this page is closed.'),restoredError:tri('Сохранённый прогресс не удалось прочитать. Начат новый сеанс.','Сақталған прогресті оқу мүмкін болмады. Жаңа сеанс басталды.','Saved progress could not be read. A new session was started.'),progress:tri('Выполнено задач','Орындалған міндеттер','Tasks completed'),error:tri('Не удалось открыть инструмент. Закройте его и попробуйте снова.','Құралды ашу мүмкін болмады. Оны жауып, қайталап көріңіз.','The tool could not be opened. Close it and try again.'),reset:tri('Сбросить локальный прогресс? Все отметки и ответы в этом браузере будут удалены.','Жергілікті прогресті қалпына келтіру керек пе? Осы браузердегі белгілер мен жауаптар жойылады.','Reset local progress? All checkmarks and answers in this browser will be cleared.')};
 Object.assign(words,{futureSchema:tri('Сохранённые данные созданы другой версией Migrato. Они не будут перезаписаны. Можно читать сайт и работать в сеансе; для нового сохранения явно удалите локальный прогресс кнопкой внизу страницы.','Сақталған деректер Migrato-ның басқа нұсқасында жасалған. Олар қайта жазылмайды. Сайтты оқып, сеанста жұмыс істеуге болады; қайта сақтау үшін беттің төменіндегі батырмамен жергілікті прогресті өшіріңіз.','Saved data belongs to another Migrato version and will not be overwritten. You can browse and work in this session; explicitly delete local progress using the footer button to enable new saving.')});
-function defaults(){return {version:1,lang:'ru',category:'',learningCategory:'',profile:{city:'',citizenship:'',category:'',ready:false},actionDone:{},actionReview:{},actionHistory:[],route:{citizenship:'',purpose:'',days:'',stage:'before',ready:false,celebrated:false},calendar:{citizenship:'',purpose:'',arrival:'',days:'',reminder:false,ready:false},simulation:createSimulationState(),quiz:{index:0,answers:{}},navigator:{problem:null,option:null},map:{city:'all',type:'all',selected:null},rental:{marked:{},evaluated:false},budget:{scenarios:[{},{}]},phrases:{situation:'service',lang:'',selected:{}}};}
+function defaults(){return {version:1,lang:'ru',category:'',learningCategory:'',profile:{city:'',citizenship:'',category:'',ready:false},actionDone:{},actionReview:{},actionHistory:[],route:{citizenship:'',purpose:'',days:'',stage:'before',ready:false,celebrated:false},calendar:{citizenship:'',purpose:'',arrival:'',days:'',reminder:false,ready:false},simulation:createSimulationState(),quiz:{index:0,answers:{}},navigator:{problem:null,option:null},map:{city:'all',type:'all',selected:null},rental:{schema:2,marked:{},evaluated:false},budget:{scenarios:[{},{}]},phrases:{situation:'rvp-first',lang:'',selected:{}},migration:{compare:['rvp','vnz'],packageId:'pmzh',documents:{},expiryType:'vnz',expiryDate:'',remindDays:'30'}};}
 function alignLearningCategory(target,category){if(target.learningCategory!==category){target.quiz={index:0,answers:{}};target.simulation=createSimulationState();}target.learningCategory=category;}
 const isObj=x=>x&&typeof x==='object'&&!Array.isArray(x);
 function safeRecord(value,type){const result={};if(!isObj(value))return result;for(const [key,v] of Object.entries(value)){if(key==='__proto__'||key==='constructor'||key==='prototype')continue;if(type==='boolean'&&typeof v==='boolean')result[key]=v;if(type==='integer'&&Number.isInteger(v)&&v>=0&&v<1000)result[key]=v;if(type==='history'&&Array.isArray(v))result[key]=v.filter(n=>Number.isInteger(n)&&n>=0&&n<10).slice(-100);}return result;}
@@ -47,9 +53,14 @@ function restore(raw){const state=defaults();if(!isObj(raw)||raw.version!==1)ret
   if(Array.isArray(raw.simulation.path))state.simulation.path=raw.simulation.path.filter(step=>isObj(step)&&typeof step.sceneId==='string'&&step.sceneId.length<100&&['main','recovery'].includes(step.phase)&&Number.isInteger(step.choice)&&step.choice>=0&&step.choice<10&&['continue','recovery','resolved','retry'].includes(step.outcome)).slice(-200).map(({sceneId,phase,choice,outcome})=>({sceneId,phase,choice,outcome}));
  }
  if(isObj(raw.quiz)){state.quiz.index=Math.max(0,Math.min(100,Number.isInteger(raw.quiz.index)?raw.quiz.index:0));state.quiz.answers=safeRecord(raw.quiz.answers,'integer');}
- if(isObj(raw.rental)){state.rental.marked=safeRecord(raw.rental.marked,'boolean');state.rental.evaluated=raw.rental.evaluated===true;}
+ if(isObj(raw.rental)){state.rental.marked=safeRecord(raw.rental.marked,'boolean');state.rental.evaluated=raw.rental.schema===2&&raw.rental.evaluated===true;}
  if(Array.isArray(raw.budget?.scenarios))for(let i=0;i<2;i++)if(isObj(raw.budget.scenarios[i]))for(const key of ['rent','utilities','food','transport','connection','other','deposit','oneoff','reserve']){const value=raw.budget.scenarios[i][key];if(typeof value==='string'&&value.length<100||typeof value==='number'&&Number.isFinite(value))state.budget.scenarios[i][key]=value;}
- if(isObj(raw.phrases)){if(['service','bank','medical','rental'].includes(raw.phrases.situation))state.phrases.situation=raw.phrases.situation;if(['ru','kk','en'].includes(raw.phrases.lang))state.phrases.lang=raw.phrases.lang;state.phrases.selected=safeRecord(raw.phrases.selected,'boolean');}
+ if(isObj(raw.phrases)){if(requestGroups.some(g=>g.situation===raw.phrases.situation))state.phrases.situation=raw.phrases.situation;if(['ru','kk','en'].includes(raw.phrases.lang))state.phrases.lang=raw.phrases.lang;state.phrases.selected=safeRecord(raw.phrases.selected,'boolean');}
+ if(isObj(raw.migration)){
+  if(Array.isArray(raw.migration.compare)&&raw.migration.compare.length===2&&raw.migration.compare.every(v=>typeof v==='string'&&v.length<40))state.migration.compare=raw.migration.compare;
+  for(const key of ['packageId','expiryType','expiryDate','remindDays'])if(typeof raw.migration[key]==='string'&&raw.migration[key].length<60)state.migration[key]=raw.migration[key];
+  if(isObj(raw.migration.documents))for(const [key,value] of Object.entries(raw.migration.documents))if(key.length<120&&!['__proto__','constructor','prototype'].includes(key)&&['have','missing','uncertain','renew'].includes(value))state.migration.documents[key]=value;
+ }
  if(state.profile.ready){
   const purpose={student:'study',worker:'work',remote:'remote',relocate:'settle'}[state.category];
   if(state.route.citizenship!==state.profile.citizenship||state.calendar.citizenship!==state.profile.citizenship||state.route.purpose!==purpose||state.calendar.purpose!==purpose){state.route.ready=false;state.calendar.ready=false;}
@@ -93,7 +104,7 @@ function translate(){document.documentElement.lang=state.lang;document.querySele
  for(const [attribute,dataKey] of [['placeholder','i18nPlaceholder'],['aria-label','i18nAria'],['title','i18nTitle']])document.querySelectorAll(`[data-${dataKey.replace(/[A-Z]/g,m=>'-'+m.toLowerCase())}]`).forEach(n=>{const value=content[state.lang]?.[n.dataset[dataKey]];if(value!==undefined)n.setAttribute(attribute,pick(value,state.lang));});
  document.querySelectorAll('#language-select').forEach(n=>{n.value=state.lang;});document.querySelectorAll('[data-lang]').forEach(n=>n.setAttribute('aria-pressed',String(n.dataset.lang===state.lang)));
  const title=content[state.lang]?.['meta.title'];if(title)document.title=pick(title,state.lang);
- renderProfile(ctx());refreshSiteGuide();renderSourceRegistry();
+ renderProfile(ctx());refreshSiteGuide();refreshBarysChat();renderSourceRegistry();
  renderPersonaContext();
  const summary=document.getElementById('profile-summary');if(summary&&!state.profile.ready)summary.textContent=pick(tri('Выберите свой профиль','Өз профиліңізді таңдаңыз','Choose your profile'),state.lang);
  mountFAQ({lang:state.lang,container:document.getElementById('faq-content'),faq:state.profile.ready?faqForCategory(state.category,faq):faq,faqSources});
@@ -124,7 +135,17 @@ function editProfile(){
  state.profile.ready=false;state.route.ready=false;state.calendar.ready=false;save();translate();
  focusTarget(document.getElementById('onboard-category')||document.getElementById('profile-panel')?.querySelector('select,input,button'));guideEvent('profile-edit');
 }
-function ctx(){return {get lang(){return state.lang;},get state(){return state;},get toolId(){return currentTool;},container,progress,save,render,updateProgress,announce,openTool,applyProfile,editProfile,celebrate:()=>celebrateJourney(ctx()),notifyGuide:detail=>notifyBarys(ctx(),currentTool,detail),onTaskChange};}
+function ctx(){return {get lang(){return state.lang;},get state(){return state;},get toolId(){return currentTool;},container,progress,extraSources:faqSources,save,render,updateProgress,announce,openTool,openHelp,openConsultant:()=>{closeTool();requestAnimationFrame(()=>openBarysChat());},applyProfile,editProfile,celebrate:()=>celebrateJourney(ctx()),notifyGuide:detail=>notifyBarys(ctx(),currentTool,detail),onTaskChange};}
+function openHelp(query='ВНЖ',faqId=null){
+ if(dialog?.open)closeTool();
+ guideEvent('section',{section:'faq'});
+ if(faqId&&openFAQAnswer(document.getElementById('faq-content'),faqId))return;
+ const search=document.getElementById('faq-search'),filter=document.getElementById('faq-category');
+ if(filter){filter.value='all';filter.dispatchEvent(new Event('change',{bubbles:true}));}
+ if(search){search.value=String(query);search.dispatchEvent(new Event('input',{bubbles:true}));}
+ document.getElementById('faq')?.scrollIntoView({block:'start',behavior:document.documentElement.dataset.motion==='paused'?'auto':'smooth'});
+ search?.focus({preventScroll:true});
+}
 function onTaskChange(id,checked){
  notifyBarys(ctx(),currentTool,{type:'action',actionId:id,checked});guideEvent('action',{actionId:id,checked});
  const summary=planSummary(state),relevant=summary.list;
@@ -161,7 +182,7 @@ function focusStep(previous,next){
  return target?focusTarget(target):false;
 }
 function render({bookmark}={}){if(!currentTool||!container)return;const previous=renderedStep,context=ctx(),activeBookmark=bookmark||captureFocus(container);container.replaceChildren();progress?.replaceChildren();if(progress)progress.hidden=true;if(status)status.textContent='';
- document.getElementById('tool-title').textContent=t(context,titles[currentTool]);const summary=document.getElementById('tool-summary');if(summary)summary.textContent=t(context,currentTool==='simulation'&&state.profile.ready?personas[state.category].description:currentTool==='map'&&state.profile.ready?mapDescription(state.profile.city):descriptions[currentTool]);if(summary)summary.append(el('small',{class:'release-note'},releaseLabel()));
+ document.getElementById('tool-title').textContent=t(context,titles[currentTool]);const summary=document.getElementById('tool-summary');if(summary)summary.textContent=t(context,currentTool==='simulation'&&state.profile.ready?personas[state.category].description:currentTool==='map'&&state.profile.ready?mapDescription(state.profile.city):descriptions[currentTool]);
  container.append(select(context,'tool-language',words.language,[['ru',tri('Русский','Орысша','Russian')],['kk',tri('Қазақша','Қазақша','Kazakh')],['en',tri('English','Ағылшынша','English')]],state.lang,setLanguage));
  try{tools[currentTool](context);mountBarys(context,currentTool);}catch(error){container.append(el('p',{class:'field-error',role:'alert'},t(context,words.error)));console.error('Migrato tool:',currentTool,error);}
  renderedStep=stepSnapshot();
@@ -187,4 +208,5 @@ dialog?.addEventListener('cancel',()=>{document.body.classList.remove('dialog-op
 dialog?.addEventListener('click',event=>{if(event.target===dialog){const box=dialog.getBoundingClientRect();if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom)closeTool();}});
 setupBarys();
 mountSiteGuide({getState:()=>state,openTool});
+mountBarysChat({getState:()=>state,openHelp});
 translate();

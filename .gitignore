@@ -28,11 +28,5 @@
 **/*-raw.png
 **/*-ax.txt
 
-# Final submission approved for version control.
-!/final/
-!/final/Ии2.docx
-!/final/ТЗ Migrato.docx
-!/final/Паспорт проекта Migrato.docx
-!/final/Скриншоты Migrato.zip
-!/final/Исходники Migrato.zip
-!/final/ПРОЧИТАЙ.txt
+# Submission documents and screenshots stay local; publish source code only.
+/final/
